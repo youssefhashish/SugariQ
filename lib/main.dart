@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../splash/diabetes_type.dart';
 import '../splash/splash_screen.dart';
@@ -12,7 +13,10 @@ import 'screens/settings.dart';
 import 'screens/signup.dart';
 import 'splash/goal_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final OnBoarding = prefs.getBool("onboarding") ?? false;
   runApp(DiabetesPredictionApp());
 }
 
