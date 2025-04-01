@@ -3,6 +3,7 @@ import '../widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
 import '../widgets/selection_options.dart';
 import '../widgets/text_style.dart';
+import 'goal_screen.dart';
 
 class DiabetesTypeScreen extends StatefulWidget {
   const DiabetesTypeScreen({super.key});
@@ -26,13 +27,17 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 53),
-              Row(
-                children: [
-                  const SizedBox(width: 26),
-                  const Expanded(
-                    child: CustomProgressIndicator(progress: 0.30),
+              // Progress Bar
+              Positioned(
+                top: 60,
+                left: 68,
+                child: SizedBox(
+                  width: 350,
+                  height: 6,
+                  child: CustomPaint(
+                    painter: ProgressBarPainter(progress: 0.50), // 50% progress
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 33),
               const Text(

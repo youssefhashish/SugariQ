@@ -56,6 +56,28 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text('Home'),
+              onTap: () => Navigator.pushNamed(context, '/home'),
+            ),
+            ListTile(
+              title: Text('Settings'),
+              onTap: () => Navigator.pushNamed(context, '/settings'),
+            ),
+            ListTile(
+              title: Text('Reminders'),
+              onTap: () => Navigator.pushNamed(context, '/reminder'),
+            ),
+            ListTile(
+              title: Text('Calendar'),
+              onTap: () => Navigator.pushNamed(context, '/calendar'),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: const Color(0xFFF8F8FB),
       body: SafeArea(
         child: Column(
@@ -81,18 +103,10 @@ class HomeScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'Convergence',
-                                  color: Colors.red,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
-                          ),
-                          Drawer(
-                            child: IconButton(
-                              icon: const Icon(Icons.menu),
-                              onPressed: () {
-                                Scaffold.of(context).openDrawer();
-                              },
-                            ),
                           ),
                         ],
                       ),

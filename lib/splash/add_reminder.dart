@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sugar_iq/screens/login.dart';
 import 'package:sugar_iq/splash/goal_screen.dart';
 
 class AddReminder extends StatelessWidget {
@@ -15,19 +16,16 @@ class AddReminder extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Back button and progress bar
-              Row(
-                children: [
-                  Image.network(
-                    'https://cdn.builder.io/api/v1/image/assets/TEMP/4cb8a912e08b3c0e9fd28a9d8c6fb118c6a7a48f',
-                    width: 24,
-                    height: 24,
+              Positioned(
+                top: 60,
+                left: 68,
+                child: SizedBox(
+                  width: 350,
+                  height: 6,
+                  child: CustomPaint(
+                    painter: ProgressBarPainter(progress: 1), // 100% progress
                   ),
-                  const SizedBox(width: 20),
-                  CustomPaint(
-                    painter: ProgressBarPainter(progress: 0.5),
-                    child: SizedBox(width: 200, height: 10),
-                  ),
-                ],
+                ),
               ),
               const SizedBox(height: 45),
 
@@ -115,26 +113,36 @@ class AddReminder extends StatelessWidget {
               const Spacer(),
 
               // Get Started button
-              Container(
-                height: 52,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xFF6FBE5A), Color(0xFF85C26F)],
-                    transform: GradientRotation(104 * 3.14159 / 180),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LogInScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 52,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF6FBE5A), Color(0xFF85C26F)],
+                      transform: GradientRotation(104 * 3.14159 / 180),
+                    ),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    'Get Started',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Convergence',
-                      fontSize: 20,
-                      height: 1.5,
+                  child: Center(
+                    child: Text(
+                      'Get Started',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Convergence',
+                        fontSize: 20,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/progress_indicator.dart';
 import '../widgets/selection_row.dart';
 import '../widgets/app_theme.dart';
+import 'goal_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -17,8 +18,18 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomProgressIndicator(
-                  progress: 0.5,
+                // Progress Bar
+                Positioned(
+                  top: 60,
+                  left: 68,
+                  child: SizedBox(
+                    width: 350,
+                    height: 6,
+                    child: CustomPaint(
+                      painter:
+                          ProgressBarPainter(progress: 0.25), // 75% progress
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 40),
                 const Text(

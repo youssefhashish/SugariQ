@@ -210,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontWeight: FontWeight.w700,
                         textColor: Colors.white,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.pushNamed(context, '/splash');
                         },
                         splashColor: Colors.black12,
                         borderColor: Colors.black,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sugar_iq/splash/add_reminder.dart';
 
 import '../splash/diabetes_type.dart';
 import '../splash/splash_screen.dart';
+import 'profile page/profile.dart';
 import 'screens/medicine_reminder.dart';
 import 'screens/report.dart';
 import 'screens/home.dart';
@@ -16,12 +18,14 @@ import 'splash/goal_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final OnBoarding = prefs.getBool("onboarding") ?? false;
-  runApp(DiabetesPredictionApp());
+  final Login = prefs.getBool("onboarding") ?? false;
+  runApp(DiabetesPredictionApp(Login: Login));
 }
 
 class DiabetesPredictionApp extends StatelessWidget {
-  const DiabetesPredictionApp({super.key});
+  final bool Login;
+
+  const DiabetesPredictionApp({super.key, required this.Login});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class DiabetesPredictionApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey[100],
       ),
       debugShowCheckedModeBanner: false,
-      home: OnBoarding(),
+      home: Login ? LogInScreen() : OnBoarding(),
       routes: {
         '/goalScreen': (context) => BloodSugarGoalScreen(),
         '/diabetesType': (context) => DiabetesTypeScreen(),
@@ -44,6 +48,8 @@ class DiabetesPredictionApp extends StatelessWidget {
         '/reminder': (context) => ReminderScreen(),
         '/calendar': (context) => CalendarCheckScreen(),
         '/progress': (context) => GlucoseProgressScreen(),
+        '/profile': (context) => ProfilePage(),
+        '/addReminder': (context) => AddReminder(),
       },
     );
   }

@@ -55,31 +55,15 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Stack(
           children: [
-            // Back Button
-            Positioned(
-              top: 51,
-              left: 24,
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CustomPaint(
-                    painter: BackButtonPainter(),
-                  ),
-                ),
-              ),
-            ),
-
             // Progress Bar
             Positioned(
               top: 60,
-              left: 68,
+              left: 10,
               child: SizedBox(
-                width: 284,
+                width: 350,
                 height: 6,
                 child: CustomPaint(
-                  painter: ProgressBarPainter(progress: 0.55), // 75% progress
+                  painter: ProgressBarPainter(progress: 0.75), // 75% progress
                 ),
               ),
             ),
@@ -241,7 +225,7 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // Handle next button press
+                    Navigator.pushNamed(context, '/addReminder');
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
