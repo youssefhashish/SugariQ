@@ -3,7 +3,6 @@ import 'package:string_validator/string_validator.dart';
 
 import 'user/user_data.dart';
 
-// This class handles the Page to edit the Phone Section of the User Profile.
 class EditPhoneFormPage extends StatefulWidget {
   const EditPhoneFormPage({Key? key}) : super(key: key);
   @override

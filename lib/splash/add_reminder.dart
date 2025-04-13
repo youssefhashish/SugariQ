@@ -167,7 +167,7 @@ class _AddReminderState extends State<AddReminder> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24), // Bottom padding
+              const SizedBox(height: 24),
             ],
           ),
         ),

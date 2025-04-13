@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user/user_data.dart';
 
-// This class handles the Page to edit the About Me Section of the User Profile.
 class EditDescriptionFormPage extends StatefulWidget {
   @override
   _EditDescriptionFormPageState createState() =>

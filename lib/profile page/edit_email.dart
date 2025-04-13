@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'user/user_data.dart';
 import 'package:email_validator/email_validator.dart';
 
-// This class handles the Page to edit the Email Section of the User Profile.
 class EditEmailFormPage extends StatefulWidget {
   const EditEmailFormPage({super.key});
 

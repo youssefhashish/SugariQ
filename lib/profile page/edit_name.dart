@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 import 'user/user_data.dart';
 
-// This class handles the Page to edit the Name Section of the User Profile.
 class EditNameFormPage extends StatefulWidget {
   const EditNameFormPage({super.key});
 

@@ -34,7 +34,6 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                 ),
               ),
               const SizedBox(height: 40),
-              // Title
               RichText(
                 text: TextSpan(
                   style: const TextStyle(
