@@ -13,6 +13,7 @@ class SelectionRow extends StatelessWidget {
     required this.value,
     required this.iconBackgroundColor,
     this.isSelectable = false,
+    required Null Function() onTap,
   });
 
   @override

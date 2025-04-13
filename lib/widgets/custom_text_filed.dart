@@ -33,14 +33,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentColor = widget.borderColor;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(

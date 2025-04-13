@@ -35,8 +35,8 @@ class MedicineCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              image,
+            child: Image.asset(
+              'assets/logo.jpg',
               width: 94,
               height: 94,
               fit: BoxFit.cover,
@@ -51,7 +51,7 @@ class MedicineCard extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     fontFamily: 'Convergence',
-                    fontSize: 16,
+                    fontSize: 20,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -65,10 +65,10 @@ class MedicineCard extends StatelessWidget {
                 const SizedBox(height: 25),
                 Text(
                   frequency,
-                  style: const TextStyle(
-                    color: Color(0xFF010101),
+                  style: TextStyle(
+                    color: Colors.grey[600],
                     fontFamily: 'Airbnb Cereal App',
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                 ),
               ],

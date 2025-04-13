@@ -25,7 +25,6 @@ class CustomFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(

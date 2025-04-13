@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/progress_indicator.dart';
+
 class BloodSugarGoalScreen extends StatefulWidget {
   const BloodSugarGoalScreen({super.key});
 
@@ -12,68 +14,28 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
   String highestValue = '';
   bool isFirstInputActive = true;
 
-  void onKeyPress(String value) {
-    setState(() {
-      if (isFirstInputActive) {
-        if (lowestValue.length < 3) {
-          // Limit to 3 digits
-          lowestValue += value;
-        }
-      } else {
-        if (highestValue.length < 3) {
-          // Limit to 3 digits
-          highestValue += value;
-        }
-      }
-    });
-  }
-
-  void onBackspace() {
-    setState(() {
-      if (isFirstInputActive) {
-        if (lowestValue.isNotEmpty) {
-          lowestValue = lowestValue.substring(0, lowestValue.length - 1);
-        }
-      } else {
-        if (highestValue.isNotEmpty) {
-          highestValue = highestValue.substring(0, highestValue.length - 1);
-        }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final maxWidth = screenSize.width > 375 ? 375.0 : screenSize.width;
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        height: screenSize.height,
-        width: maxWidth,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: Stack(
-          children: [
-            // Progress Bar
-            Positioned(
-              top: 60,
-              left: 10,
-              child: SizedBox(
-                width: 350,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 60),
+              // Progress Bar
+              SizedBox(
+                width: double.infinity,
                 height: 6,
                 child: CustomPaint(
                   painter: ProgressBarPainter(progress: 0.75), // 75% progress
                 ),
               ),
-            ),
-
-            // Title
-            Positioned(
-              top: 106,
-              left: 24,
-              width: 319,
-              child: RichText(
+              const SizedBox(height: 40),
+              // Title
+              RichText(
                 text: TextSpan(
                   style: const TextStyle(
                     fontFamily: 'Convergence',
@@ -99,122 +61,137 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                   ],
                 ),
               ),
-            ),
-
-            // Input Fields
-            Positioned(
-              top: 208,
-              left: 24,
-              child: Column(
+              const SizedBox(height: 40),
+              // Input Fields
+              Column(
                 children: [
                   // First Input Field
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isFirstInputActive = true;
-                      });
-                    },
-                    child: Container(
-                      width: 327,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: isFirstInputActive
-                              ? const Color(0xFF6FBE5A)
-                              : const Color(0xFFE0E3E6),
-                          width: 1,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            lowestValue.isEmpty ? 'Lowest value' : lowestValue,
-                            style: TextStyle(
-                              fontFamily: 'Convergence',
-                              fontSize: 16,
-                              color: lowestValue.isEmpty
-                                  ? const Color(0xFFABAFB3)
-                                  : Colors.black,
-                            ),
-                          ),
-                          const Text(
-                            'mg / dl',
-                            style: TextStyle(
-                              fontFamily: 'Convergence',
-                              fontSize: 16,
-                              color: Color(0xFF0A0A0A),
-                            ),
-                          ),
-                        ],
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: isFirstInputActive
+                            ? const Color(0xFF6FBE5A)
+                            : const Color(0xFFE0E3E6),
+                        width: 1,
                       ),
                     ),
-                  ),
-
-                  const SizedBox(height: 19),
-
-                  // Second Input Field
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isFirstInputActive = false;
-                      });
-                    },
-                    child: Container(
-                      width: 327,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: !isFirstInputActive
-                              ? const Color(0xFF6FBE5A)
-                              : const Color(0xFFE0E3E6),
-                          width: 1,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            onTap: () {
+                              setState(() {
+                                isFirstInputActive = true;
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Lowest value',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Convergence',
+                                fontSize: 16,
+                                color: Color(0xFFABAFB3),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Convergence',
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              setState(() {
+                                lowestValue = value;
+                              });
+                            },
+                          ),
                         ),
+                        const Text(
+                          'mg / dl',
+                          style: TextStyle(
+                            fontFamily: 'Convergence',
+                            fontSize: 16,
+                            color: Color(0xFF0A0A0A),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  // Second Input Field
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: !isFirstInputActive
+                            ? const Color(0xFF6FBE5A)
+                            : const Color(0xFFE0E3E6),
+                        width: 1,
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            highestValue.isEmpty
-                                ? 'Highest value'
-                                : highestValue,
-                            style: TextStyle(
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            onTap: () {
+                              setState(() {
+                                isFirstInputActive = false;
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Highest value',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Convergence',
+                                fontSize: 16,
+                                color: Color(0xFFABAFB3),
+                              ),
+                            ),
+                            style: const TextStyle(
                               fontFamily: 'Convergence',
                               fontSize: 16,
-                              color: highestValue.isEmpty
-                                  ? const Color(0xFFABAFB3)
-                                  : Colors.black,
+                              color: Colors.black,
                             ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              setState(() {
+                                highestValue = value;
+                              });
+                            },
                           ),
-                          const Text(
-                            'mg / dl',
-                            style: TextStyle(
-                              fontFamily: 'Convergence',
-                              fontSize: 16,
-                              color: Color(0xFF0A0A0A),
-                            ),
+                        ),
+                        const Text(
+                          'mg / dl',
+                          style: TextStyle(
+                            fontFamily: 'Convergence',
+                            fontSize: 16,
+                            color: Color(0xFF0A0A0A),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-
-            // Next Button
-            Positioned(
-              top: 449,
-              left: 24,
-              child: Container(
-                width: 327,
-                height: 52,
+              const Spacer(),
+              // Next Button
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 44,
+                ),
+                width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   gradient: const LinearGradient(
@@ -243,83 +220,11 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                   ),
                 ),
               ),
-            ),
-
-            // Home Indicator
-            Positioned(
-              bottom: 8,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  width: 134,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-          ],
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
-  }
-}
-
-class BackButtonPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFF0A0A0A)
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-    path.moveTo(size.width * 0.735, size.height * 0.097);
-    path.lineTo(size.width * 0.265, size.height * 0.467);
-    path.lineTo(size.width * 0.735, size.height * 0.903);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class ProgressBarPainter extends CustomPainter {
-  final double progress; // 0.0 to 1.0
-
-  ProgressBarPainter({required this.progress});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Background
-    final backgroundPaint = Paint()
-      ..color = const Color(0xFFE7F1FF)
-      ..style = PaintingStyle.fill;
-
-    final backgroundRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      const Radius.circular(3),
-    );
-    canvas.drawRRect(backgroundRect, backgroundPaint);
-
-    // Progress
-    final progressPaint = Paint()
-      ..color = const Color(0xFFED6461)
-      ..style = PaintingStyle.fill;
-
-    final progressRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.width * progress, size.height),
-      const Radius.circular(3),
-    );
-    canvas.drawRRect(progressRect, progressPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant ProgressBarPainter oldDelegate) {
-    return oldDelegate.progress != progress;
   }
 }

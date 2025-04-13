@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
-import '../widgets/selection_options.dart';
 import '../widgets/text_style.dart';
-import 'goal_screen.dart';
 
 class DiabetesTypeScreen extends StatefulWidget {
   const DiabetesTypeScreen({super.key});
@@ -45,22 +43,157 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
                 style: AppTextStyles.heading,
               ),
               const SizedBox(height: 40),
-              SelectionOption(
-                text: 'Type 1',
-                isSelected: selectedType == 'Type 1',
-                onTap: () => setState(() => selectedType = 'Type 1'),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedType = 'Type 1';
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: selectedType == 'Type 1'
+                        ? Colors.purple.shade50
+                        : Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5),
+                          color: selectedType == 'Type 1'
+                              ? Colors.purple.shade300
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selectedType == 'Type 1'
+                                ? Colors.purple.shade300
+                                : Colors.grey,
+                            width: 2,
+                          ),
+                        ),
+                        child: selectedType == 'Type 1'
+                            ? const Icon(
+                                Icons.check,
+                                size: 16,
+                                color: Colors.white,
+                              )
+                            : null,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Type 1',
+                        style: AppTextStyles.buttonText
+                            .copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
-              SelectionOption(
-                text: 'Type 2',
-                isSelected: selectedType == 'Type 2',
-                onTap: () => setState(() => selectedType = 'Type 2'),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedType = 'Type 2';
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: selectedType == 'Type 2'
+                        ? Colors.purple.shade50
+                        : Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5),
+                          color: selectedType == 'Type 2'
+                              ? Colors.purple.shade300
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selectedType == 'Type 2'
+                                ? Colors.purple.shade300
+                                : Colors.grey,
+                            width: 2,
+                          ),
+                        ),
+                        child: selectedType == 'Type 2'
+                            ? const Icon(
+                                Icons.check,
+                                size: 16,
+                                color: Colors.white,
+                              )
+                            : null,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Type 2',
+                        style: AppTextStyles.buttonText
+                            .copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
-              SelectionOption(
-                text: 'Gestational',
-                isSelected: selectedType == 'Gestational',
-                onTap: () => setState(() => selectedType = 'Gestational'),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedType = 'Gestational';
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: selectedType == 'Gestational'
+                        ? Colors.purple.shade50
+                        : Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(5),
+                          color: selectedType == 'Gestational'
+                              ? Colors.purple.shade300
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selectedType == 'Gestational'
+                                ? Colors.purple.shade300
+                                : Colors.grey,
+                            width: 2,
+                          ),
+                        ),
+                        child: selectedType == 'Gestational'
+                            ? const Icon(
+                                Icons.check,
+                                size: 16,
+                                color: Colors.white,
+                              )
+                            : null,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Gestational',
+                        style: AppTextStyles.buttonText
+                            .copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const Spacer(),
               Container(
@@ -87,7 +220,7 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
                       shadowColor: Colors.transparent,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 44,
-                        vertical: 15,
+                        vertical: 20,
                       ),
                     ),
                     child: const Text(
