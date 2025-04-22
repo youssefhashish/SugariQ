@@ -29,15 +29,15 @@ class DisplayImage extends StatelessWidget {
 
   //Profile Image
   Widget buildImage(Color color) {
-    final image = imagePath.contains('https://')
-        ? NetworkImage(imagePath)
-        : FileImage(File(imagePath));
+    final image = imagePath.contains('assets/logo.jpg')
+        ? AssetImage(imagePath)
+        : FileImage(File(imagePath)) as ImageProvider;
 
     return CircleAvatar(
       radius: 75,
       backgroundColor: color,
       child: CircleAvatar(
-        backgroundImage: image as ImageProvider,
+        backgroundImage: image,
         radius: 70,
       ),
     );
