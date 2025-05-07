@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SpoonacularService {
   static const String _apiKey = '79e8bd525cbb4a639c14c87df8015040';
@@ -13,7 +15,27 @@ class SpoonacularService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final List results = data['results'];
-      return results.map((json) => MealItem.fromJson(json)).toList();
+      final meals = results.map((json) => MealItem.fromJson(json)).toList();
+
+      // Save meals to Firestore
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final firestore = FirebaseFirestore.instance;
+        final batch = firestore.batch();
+        final mealsCollection = firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('meals');
+
+        for (var meal in meals) {
+          final docRef = mealsCollection.doc();
+          batch.set(docRef, meal.toJson());
+        }
+
+        await batch.commit();
+      }
+
+      return meals;
     } else {
       throw Exception('Failed to load meals');
     }
@@ -48,5 +70,14 @@ class MealItem {
               ?.toDouble() ??
           0.0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'image': image,
+      'calories': calories,
+      'carbs': carbs,
+    };
   }
 }

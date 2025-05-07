@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/splash/add_reminder.dart';
 import 'package:sugar_iq/splash/prediction_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+
 
 import '../splash/diabetes_type.dart';
 import '../splash/splash_screen.dart';
@@ -21,17 +25,30 @@ import 'screens/reminder.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await UserData.init();
-  final prefs = await SharedPreferences.getInstance();
-  final Login = prefs.getBool("onboarding") ?? false;
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MedicationProvider()),
-      ],
-      child: DiabetesPredictionApp(Login: Login),
-    ),
-  );
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('Firebase initialized successfully.');
+
+    // await UserData.init();
+    print('UserData initialized successfully.');
+
+    final prefs = await SharedPreferences.getInstance();
+    final Login = prefs.getBool("onboarding") ?? false;
+
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => MedicationProvider()),
+        ],
+        child: DiabetesPredictionApp(Login: Login),
+      ),
+    );
+  } catch (e) {
+    print('Error during initialization: $e');
+  }
 }
 
 class DiabetesPredictionApp extends StatelessWidget {

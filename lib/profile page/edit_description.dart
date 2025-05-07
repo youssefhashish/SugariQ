@@ -18,8 +18,9 @@ class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
     super.dispose();
   }
 
-  void updateUserValue(String description) {
+  void updateUserValue(String description) async {
     user.aboutMeDescription = description;
+    await UserData.setUser(user);
   }
 
   @override

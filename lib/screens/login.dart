@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../validator.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/custom_button.dart';
@@ -15,13 +16,15 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  bool isLoading = false;
 
   late CustomTextField usernameField;
   late CustomTextField passwordField;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     usernameField = CustomTextField(
@@ -49,6 +52,42 @@ class _LogInScreenState extends State<LogInScreen> {
       validator: Validator.validatePassword,
       onChanged: (value) {},
     );
+  }
+
+  Future<void> _login() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: username.text.trim(),
+        password: password.text.trim(),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavWrapper()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No user found for that email.';
+          break;
+        case 'wrong-password':
+          errorMessage = 'Wrong password provided.';
+          break;
+        default:
+          errorMessage = 'An error occurred. Please try again.';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -94,23 +133,19 @@ class _LogInScreenState extends State<LogInScreen> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 50.0, left: 40.0, right: 40.0),
-                    child: CustomFlatButton(
-                      title: "Login",
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavWrapper()),
-                        );
-                      },
-                      splashColor: Colors.black12,
-                      borderColor: Colors.black,
-                      borderWidth: 0,
-                      color: Color(0xFF85C26F),
-                    ),
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : CustomFlatButton(
+                            title: "Login",
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            textColor: Colors.white,
+                            onPressed: _login,
+                            splashColor: Colors.black12,
+                            borderColor: Colors.black,
+                            borderWidth: 0,
+                            color: Color(0xFF85C26F),
+                          ),
                   ),
                   Padding(
                       padding: const EdgeInsets.only(left: 80.0, right: 80.0),

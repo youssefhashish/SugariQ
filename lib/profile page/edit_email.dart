@@ -23,8 +23,9 @@ class EditEmailFormPageState extends State<EditEmailFormPage> {
     super.dispose();
   }
 
-  void updateUserValue(String email) {
+  void updateUserValue(String email) async {
     user.email = email;
+    await UserData.setUser(user);
   }
 
   @override

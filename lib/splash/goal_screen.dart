@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../widgets/progress_indicator.dart';
 
@@ -13,6 +15,51 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
   String lowestValue = '';
   String highestValue = '';
   bool isFirstInputActive = true;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBloodSugarGoalsFromFirestore();
+  }
+
+  Future<void> _loadBloodSugarGoalsFromFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final doc = await _firestore.collection('users').doc(user.uid).get();
+        final data = doc.data();
+        if (data != null) {
+          setState(() {
+            lowestValue = data['lowestBloodSugarGoal'] ?? '';
+            highestValue = data['highestBloodSugarGoal'] ?? '';
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load blood sugar goals: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveBloodSugarGoalsToFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'lowestBloodSugarGoal': lowestValue,
+          'highestBloodSugarGoal': highestValue,
+        }, SetOptions(merge: true));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save blood sugar goals: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +155,9 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                               setState(() {
                                 lowestValue = value;
                               });
+                              _saveBloodSugarGoalsToFirestore();
                             },
+                            initialValue: lowestValue,
                           ),
                         ),
                         const Text(
@@ -167,7 +216,9 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                               setState(() {
                                 highestValue = value;
                               });
+                              _saveBloodSugarGoalsToFirestore();
                             },
+                            initialValue: highestValue,
                           ),
                         ),
                         const Text(

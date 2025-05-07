@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
 
@@ -13,6 +15,68 @@ class _SplashScreenState extends State<SplashScreen> {
   String? gender;
   String? age;
   String? diabetesType;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Map<String, dynamic> get userPreferences => {
+        'gender': gender,
+        'age': age,
+        'diabetesType': diabetesType,
+      };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserDataFromFirestore();
+  }
+
+  Future<void> _loadUserDataFromFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final doc = await _firestore.collection('users').doc(user.uid).get();
+        final data = doc.data();
+        if (data != null) {
+          setState(() {
+            gender = data['gender'];
+            age = data['age'];
+            diabetesType = data['diabetesType'];
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load user data: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveUserDataToFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'gender': gender,
+          'age': age,
+          'diabetesType': diabetesType,
+        }, SetOptions(merge: true));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save user data: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveUserPreferences() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      await _firestore.collection('users').doc(user.uid).set({
+        'preferences': userPreferences,
+      }, SetOptions(merge: true));
+    }
+  }
 
   void _selectOption(
       String title, List<String> options, ValueChanged<String> onSelected) {
@@ -71,6 +135,7 @@ class _SplashScreenState extends State<SplashScreen> {
               value: gender ?? 'Select',
               onTap: () => _selectOption('Gender', ['Male', 'Female'], (val) {
                 setState(() => gender = val);
+                _saveUserDataToFirestore();
               }),
             ),
             SizedBox(
@@ -84,6 +149,7 @@ class _SplashScreenState extends State<SplashScreen> {
               onTap: () => _selectOption(
                   'Age', List.generate(100, (i) => '${i + 1}'), (val) {
                 setState(() => age = val);
+                _saveUserDataToFirestore();
               }),
             ),
             SizedBox(
@@ -97,6 +163,7 @@ class _SplashScreenState extends State<SplashScreen> {
               onTap: () => _selectOption(
                   'Diabetes type', ['Type 1', 'Type 2', 'Gestational'], (val) {
                 setState(() => diabetesType = val);
+                _saveUserDataToFirestore();
               }),
             ),
             const SizedBox(height: 185),

@@ -1,46 +1,52 @@
 class User {
   String image;
-  String name;
+  String firstName;
+  String lastName;
   String email;
-  String phone;
+  String phoneNumber;
   String aboutMeDescription;
 
   User({
     required this.image,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
-    required this.phone,
+    required this.phoneNumber,
     required this.aboutMeDescription,
   });
 
   User copy({
     String? imagePath,
-    String? name,
-    String? phone,
+    String? firstName,
+    String? lastName,
     String? email,
+    String? phoneNumber,
     String? about,
   }) =>
       User(
         image: imagePath ?? this.image,
-        name: name ?? this.name,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
         email: email ?? this.email,
-        phone: phone ?? this.phone,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
         aboutMeDescription: about ?? this.aboutMeDescription,
       );
 
   static User fromJson(Map<String, dynamic> json) => User(
         image: json['imagePath'],
-        name: json['name'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
         email: json['email'],
+        phoneNumber: json['phoneNumber'],
         aboutMeDescription: json['about'],
-        phone: json['phone'],
       );
 
   Map<String, dynamic> toJson() => {
         'imagePath': image,
-        'name': name,
+        'firstName': firstName,
+        'lastName': lastName,
         'email': email,
+        'phoneNumber': phoneNumber,
         'about': aboutMeDescription,
-        'phone': phone,
       };
 }

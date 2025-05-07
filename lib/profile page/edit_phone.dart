@@ -22,14 +22,14 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
     super.dispose();
   }
 
-  void updateUserValue(String phone) {
+  void updateUserValue(String phoneNumber) {
     String formattedPhoneNumber = "(" +
-        phone.substring(0, 3) +
+        phoneNumber.substring(0, 3) +
         ") " +
-        phone.substring(3, 6) +
+        phoneNumber.substring(3, 6) +
         "-" +
-        phone.substring(6, phone.length);
-    user.phone = formattedPhoneNumber;
+        phoneNumber.substring(6, phoneNumber.length);
+    user.phoneNumber = formattedPhoneNumber;
   }
 
   @override

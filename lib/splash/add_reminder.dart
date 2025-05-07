@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sugar_iq/screens/login.dart';
 import '../widgets/progress_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddReminder extends StatefulWidget {
   const AddReminder({super.key});
@@ -11,6 +13,52 @@ class AddReminder extends StatefulWidget {
 
 class _AddReminderState extends State<AddReminder> {
   final List<String> reminders = [];
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRemindersFromFirestore();
+  }
+
+  Future<void> _loadRemindersFromFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final snapshot = await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('reminders')
+            .get();
+
+        setState(() {
+          reminders.addAll(snapshot.docs.map((doc) => doc['time'] as String));
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load reminders: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveReminderToFirestore(String time) async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('reminders')
+            .add({'time': time});
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save reminder: $e')),
+      );
+    }
+  }
 
   void _addReminder() async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -19,9 +67,11 @@ class _AddReminderState extends State<AddReminder> {
     );
 
     if (pickedTime != null) {
+      final formattedTime = pickedTime.format(context);
       setState(() {
-        reminders.add(pickedTime.format(context));
+        reminders.add(formattedTime);
       });
+      _saveReminderToFirestore(formattedTime);
     }
   }
 

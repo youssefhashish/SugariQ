@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../mealservices/add_meal.dart';
 import '../mealservices/spoonacular_services.dart';
 
@@ -41,38 +43,74 @@ class MealsPage extends StatefulWidget {
 
 class _MealsPageState extends State<MealsPage> {
   List<Meal> addedMeals = [];
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    _loadMeals();
+    _loadMealsFromFirestore();
   }
 
-  Future<void> _loadMeals() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String>? mealsJson = prefs.getStringList('meals');
+  Future<void> _loadMealsFromFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final snapshot = await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('meals')
+            .get();
 
-    if (mealsJson != null) {
-      setState(() {
-        addedMeals = mealsJson
-            .map((mealStr) => Meal.fromJson(jsonDecode(mealStr)))
-            .toList();
-      });
+        setState(() {
+          addedMeals = snapshot.docs
+              .map((doc) => Meal.fromJson(doc.data()))
+              .toList();
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load meals: $e')),
+      );
     }
   }
 
-  Future<void> _saveMeals() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> mealsJson =
-        addedMeals.map((meal) => jsonEncode(meal.toJson())).toList();
-    await prefs.setStringList('meals', mealsJson);
+  Future<void> _saveMealsToFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        final batch = _firestore.batch();
+        final mealsCollection = _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('meals');
+
+        // Clear existing meals
+        final existingMeals = await mealsCollection.get();
+        for (var doc in existingMeals.docs) {
+          batch.delete(doc.reference);
+        }
+
+        // Add updated meals
+        for (var meal in addedMeals) {
+          final docRef = mealsCollection.doc();
+          batch.set(docRef, meal.toJson());
+        }
+
+        await batch.commit();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save meals: $e')),
+      );
+    }
   }
 
   void _addMeal(Meal meal) {
     setState(() {
       addedMeals.add(meal);
     });
-    _saveMeals();
+    _saveMealsToFirestore();
   }
 
   void _showMealPicker() {
@@ -243,7 +281,7 @@ class _MealsPageState extends State<MealsPage> {
                           setState(() {
                             addedMeals.removeAt(index);
                           });
-                          _saveMeals();
+                          _saveMealsToFirestore();
                         },
                       ),
                     ],

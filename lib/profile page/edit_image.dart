@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import 'user/user.dart';
 import 'user/user_data.dart';
@@ -16,29 +17,38 @@ class EditImagePage extends StatefulWidget {
 }
 
 class _EditImagePageState extends State<EditImagePage> {
-  late User user;
+  User? user;
 
   @override
   void initState() {
     super.initState();
-    user = UserData.getUser();
+    loadUser();
+  }
+
+  Future<void> loadUser() async {
+    final u = await UserData.getUser();
+    setState(() {
+      user = u;
+    });
   }
 
   Future<void> pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (image == null) return;
+    if (image == null || user == null) return;
 
     final location = await getApplicationDocumentsDirectory();
     final name = basename(image.path);
     final imageFile = File('${location.path}/$name');
     final newImage = await File(image.path).copy(imageFile.path);
 
+    final updatedUser = user!.copy(imagePath: newImage.path);
+
     setState(() {
-      user = user.copy(imagePath: newImage.path);
+      user = updatedUser;
     });
 
-    await UserData.setUser(user);
+    await UserData.setUser(updatedUser);
   }
 
   @override
@@ -49,60 +59,62 @@ class _EditImagePageState extends State<EditImagePage> {
         elevation: 0,
         toolbarHeight: 10,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(
-            width: 330,
-            child: Text(
-              "Upload a photo of yourself:",
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: GestureDetector(
-              onTap: pickImage,
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: user.image.startsWith('http')
-                        ? NetworkImage(user.image)
-                        : FileImage(File(user.image)) as ImageProvider,
-                    fit: BoxFit.cover,
+      body: user == null
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(
+                  width: 330,
+                  child: Text(
+                    "Upload a photo of yourself:",
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: 330,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Update',
-                    style: TextStyle(fontSize: 15),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: GestureDetector(
+                    onTap: pickImage,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: user!.image.startsWith('http')
+                              ? NetworkImage(user!.image)
+                              : FileImage(File(user!.image)) as ImageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 330,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Update',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }

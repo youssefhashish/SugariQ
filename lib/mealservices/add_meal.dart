@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/meal.dart';
 
 class AddMealScreen extends StatefulWidget {
@@ -12,11 +14,13 @@ class AddMealScreen extends StatefulWidget {
 
 class _AddMealScreenState extends State<AddMealScreen> {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String name = '';
   int calories = 0;
   int glucoseLevel = 0;
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -28,6 +32,17 @@ class _AddMealScreenState extends State<AddMealScreen> {
       );
 
       widget.onMealAdded(meal);
+
+      // Save to Firestore
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('meals')
+            .add(meal.toJson());
+      }
+
       Navigator.pop(context);
     }
   }
