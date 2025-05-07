@@ -9,12 +9,14 @@ class Meal {
   final String imageUrl;
   final int calories;
   final int glucoseLevel;
+  final DateTime dateTime;
 
   Meal({
     required this.name,
     required this.imageUrl,
     required this.calories,
     required this.glucoseLevel,
+    required this.dateTime,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,6 +24,7 @@ class Meal {
         'imageUrl': imageUrl,
         'calories': calories,
         'glucoseLevel': glucoseLevel,
+        'dateTime': dateTime.toIso8601String(),
       };
 
   factory Meal.fromJson(Map<String, dynamic> json) => Meal(
@@ -29,6 +32,7 @@ class Meal {
         imageUrl: json['imageUrl'],
         calories: json['calories'],
         glucoseLevel: json['glucoseLevel'],
+        dateTime: DateTime.parse(json['dateTime']),
       );
 }
 
@@ -69,8 +73,16 @@ class _MealsPageState extends State<MealsPage> {
   }
 
   void _addMeal(Meal meal) {
+    final mealWithTime = Meal(
+      name: meal.name,
+      imageUrl: meal.imageUrl,
+      calories: meal.calories,
+      glucoseLevel: meal.glucoseLevel,
+      dateTime: DateTime.now(),
+    );
+
     setState(() {
-      addedMeals.add(meal);
+      addedMeals.add(mealWithTime);
     });
     _saveMeals();
   }
@@ -145,6 +157,7 @@ class _MealsPageState extends State<MealsPage> {
                       imageUrl: meal.image,
                       calories: meal.calories,
                       glucoseLevel: meal.carbs.toInt(),
+                      dateTime: DateTime.now(),
                     ));
                     Navigator.pop(context);
                   },

@@ -149,16 +149,16 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home'),
+              title: Text('Reminder'),
               onTap: () {
                 Navigator.pushNamed(context, '/reminder');
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              title: Text('My Report'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/progress');
               },
             ),
             ListTile(

@@ -9,7 +9,6 @@ import '../splash/splash_screen.dart';
 import 'components/mdecine_provider.dart';
 import 'profile page/profile.dart';
 import 'profile page/user/user_data.dart';
-import 'screens/medicine_reminder.dart';
 import 'screens/report.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
@@ -58,8 +57,7 @@ class DiabetesPredictionApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/settings': (context) => SettingsScreen(),
         '/reminder': (context) => ReminderPage(),
-        '/calendar': (context) => CalendarCheckScreen(),
-        '/progress': (context) => GlucoseProgressScreen(),
+        '/progress': (context) => MyReportPage(),
         '/profile': (context) => ProfilePage(),
         '/addReminder': (context) => AddReminder(),
         '/prediction': (context) => PredictionPage(),

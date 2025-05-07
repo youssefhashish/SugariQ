@@ -25,6 +25,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
         imageUrl: 'assets/meal.webp',
         calories: calories,
         glucoseLevel: glucoseLevel,
+        dateTime: DateTime.now(),
       );
 
       widget.onMealAdded(meal);
