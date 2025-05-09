@@ -121,6 +121,7 @@ class HomeScreen extends StatelessWidget {
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sugar_iq/screens/saved_meals.dart';
+import 'package:sugar_iq/widgets/chatbot_FAB.dart';
 import '../../widgets/medicine_card.dart';
 import '../../widgets/info_card.dart';
 import '../components/mdecine_provider.dart';
@@ -262,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: ChatBotButton(),
     );
   }
 }
