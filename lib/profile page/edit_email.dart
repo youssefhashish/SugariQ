@@ -24,7 +24,7 @@ class EditEmailFormPageState extends State<EditEmailFormPage> {
   }
 
   void updateUserValue(String email) {
-    user.email = email;
+    UserData.myUser.email = email;
   }
 
   @override
@@ -71,21 +71,28 @@ class EditEmailFormPageState extends State<EditEmailFormPage> {
                     child: Align(
                         alignment: Alignment.bottomCenter,
                         child: SizedBox(
-                          width: 320,
+                          width: 250,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF85C26F),
+                            ),
+                            onPressed: () async {
                               // Validate returns true if the form is valid, or false otherwise.
                               if (_formKey.currentState!.validate() &&
                                   EmailValidator.validate(
                                       emailController.text)) {
                                 updateUserValue(emailController.text);
+                                await UserData.setUser(UserData.myUser);
                                 Navigator.pop(context);
                               }
                             },
                             child: const Text(
                               'Update',
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )))

@@ -4,7 +4,7 @@ class Validator {
   }
 
   static bool validateNumber(String text) {
-    Pattern pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+    Pattern pattern = r'^01[0125][0-9]{8}$';
     RegExp regex = RegExp(pattern as String);
     return regex.hasMatch(text);
   }

@@ -39,6 +39,7 @@ class _EditImagePageState extends State<EditImagePage> {
     });
 
     await UserData.setUser(user);
+    UserData.updateImage(newImage.path);
   }
 
   @override
@@ -87,15 +88,22 @@ class _EditImagePageState extends State<EditImagePage> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                width: 330,
+                width: 250,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF85C26F),
+                  ),
+                  onPressed: () async {
                     Navigator.pop(context);
+                    await UserData.setUser(UserData.myUser);
                   },
                   child: const Text(
                     'Update',
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
               ),

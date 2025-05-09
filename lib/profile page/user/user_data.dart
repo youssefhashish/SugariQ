@@ -15,6 +15,26 @@ class UserData {
     aboutMeDescription: 'ADD YOUR DESCRIPTION HERE. (Optional)',
   );
 
+  static void updateUser(User user) {
+    myUser = user;
+  }
+
+  static void updateImage(String newImagePath) {
+    myUser.image = newImagePath;
+  }
+
+  static void updateName(String name) {
+    myUser.name = name;
+  }
+
+  static void updatePhone(String phone) {
+    myUser.phone = phone;
+  }
+
+  static void updateEmail(String email) {
+    myUser.email = email;
+  }
+
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
 

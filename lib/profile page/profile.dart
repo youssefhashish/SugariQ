@@ -17,14 +17,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late User user;
 
-  @override
+  /*@override
   void initState() {
     super.initState();
     user = UserData.getUser();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
+    User user = UserData.getUser();
     return SafeArea(
       child: Column(
         children: [
@@ -56,8 +57,8 @@ class _ProfilePageState extends State<ProfilePage> {
           buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
           buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
           Expanded(
-            child: buildAbout(user),
             flex: 4,
+            child: buildAbout(user),
           ),
         ],
       ),
@@ -123,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 1),
           Container(
               width: 350,
-              height: 200,
+              height: 100,
               decoration: BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
