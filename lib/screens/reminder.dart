@@ -658,11 +658,14 @@ class _ReminderPageState extends State<ReminderPage> {
 }*/
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../components/mdecine_provider.dart';
 import '../components/medication_model.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class ReminderPage extends StatefulWidget {
   const ReminderPage({super.key});
@@ -680,10 +683,24 @@ class _ReminderPageState extends State<ReminderPage> {
   int timesPerDay = 1;
   List<TimeOfDay> times = [TimeOfDay.now()];
 
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
     super.initState();
     _loadReminders();
+    tz.initializeTimeZones();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
   }
 
   void _pickTime(int index) async {
@@ -696,12 +713,45 @@ class _ReminderPageState extends State<ReminderPage> {
     }
   }
 
-  void _submitReminder() {
+  Future<void> _submitReminder() async {
     if (selectedType == 'Medication') {
       if (_formKey.currentState!.validate()) {
         Provider.of<MedicationProvider>(context, listen: false).addMedication(
           Medication(name: medName, timesPerDay: timesPerDay, times: times),
         );
+        for (int i = 0; i < times.length; i++) {
+          final now = DateTime.now();
+          DateTime scheduledDate = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            times[i].hour,
+            times[i].minute,
+          );
+
+          if (scheduledDate.isBefore(now)) {
+            scheduledDate = scheduledDate.add(const Duration(days: 1));
+          }
+
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+            DateTime.now().millisecondsSinceEpoch ~/ 1000 + i, // unique ID
+            'Medication Reminder',
+            'Time to take $medName (Dose ${i + 1})',
+            tz.TZDateTime.from(scheduledDate, tz.local),
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'med_channel',
+                'Medications',
+                channelDescription: 'Medication reminders',
+                importance: Importance.max,
+                priority: Priority.high,
+              ),
+            ),
+            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+            matchDateTimeComponents: DateTimeComponents.time,
+          );
+        }
+
         Navigator.pop(context);
       }
     } else {
@@ -712,6 +762,37 @@ class _ReminderPageState extends State<ReminderPage> {
           'time': selectedTime,
         });
       });
+
+      final now = DateTime.now();
+      DateTime scheduledDate = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        selectedTime.hour,
+        selectedTime.minute,
+      );
+      if (scheduledDate.isBefore(now)) {
+        scheduledDate = scheduledDate.add(const Duration(days: 1));
+      }
+
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        reminders.length,
+        selectedType,
+        'It\'s time for your $selectedType',
+        tz.TZDateTime.from(scheduledDate, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'reminder_channel',
+            'Reminders',
+            channelDescription: 'Reminder notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+
       _saveReminders();
       Navigator.pop(context);
     }

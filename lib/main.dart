@@ -41,7 +41,7 @@ class DiabetesPredictionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Diabetes Prediction',
+      title: 'SugarIQ',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],
@@ -60,7 +60,7 @@ class DiabetesPredictionApp extends StatelessWidget {
         '/progress': (context) => MyReportPage(),
         '/profile': (context) => ProfilePage(),
         '/addReminder': (context) => AddReminder(),
-        '/prediction': (context) => PredictionPage(),
+        '/prediction': (context) => PredictionScreen(),
       },
     );
   }

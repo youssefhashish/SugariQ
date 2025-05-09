@@ -73,9 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 setState(() => gender = val);
               }),
             ),
-            SizedBox(
-              height: 40,
-            ),
+            Divider(height: 40, thickness: 2, color: Colors.grey[300]),
             _buildTile(
               icon: Icons.calendar_today_outlined,
               iconBgColor: Colors.purple.shade50,
@@ -86,9 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 setState(() => age = val);
               }),
             ),
-            SizedBox(
-              height: 40,
-            ),
+            Divider(height: 40, thickness: 2, color: Colors.grey[300]),
             _buildTile(
               icon: Icons.bloodtype_outlined,
               iconBgColor: Colors.red.shade50,
@@ -99,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 setState(() => diabetesType = val);
               }),
             ),
-            const SizedBox(height: 185),
+            const SizedBox(height: 180),
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
