@@ -135,7 +135,9 @@ class _InfoCardState extends State<InfoCard> {
     final remaining = totalGlucose - eatenGlucose;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(5),
+      width: double.maxFinite,
+      height: 250,
       decoration: BoxDecoration(
         color: const Color(0xFFEBF1FE),
         borderRadius: BorderRadius.circular(18),

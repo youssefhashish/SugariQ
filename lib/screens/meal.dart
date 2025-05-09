@@ -37,8 +37,9 @@ class Meal {
 }
 
 class MealsPage extends StatefulWidget {
-  const MealsPage({super.key});
+  final VoidCallback? onMealAdded;
 
+  const MealsPage({super.key, this.onMealAdded});
   @override
   State<MealsPage> createState() => _MealsPageState();
 }
@@ -72,6 +73,20 @@ class _MealsPageState extends State<MealsPage> {
     await prefs.setStringList('meals', mealsJson);
   }
 
+  /*void _addMeal(Meal meal) {
+    final mealWithTime = Meal(
+      name: meal.name,
+      imageUrl: meal.imageUrl,
+      calories: meal.calories,
+      glucoseLevel: meal.glucoseLevel,
+      dateTime: DateTime.now(),
+    );
+
+    setState(() {
+      addedMeals.add(mealWithTime);
+    });
+    _saveMeals();
+  }*/
   void _addMeal(Meal meal) {
     final mealWithTime = Meal(
       name: meal.name,
@@ -85,6 +100,10 @@ class _MealsPageState extends State<MealsPage> {
       addedMeals.add(mealWithTime);
     });
     _saveMeals();
+
+    if (widget.onMealAdded != null) {
+      widget.onMealAdded!();
+    }
   }
 
   void _showMealPicker() {

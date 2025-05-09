@@ -133,8 +133,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _infoCardRefreshKey = 0;
+
   void _refreshInfoCard() {
-    setState(() {});
+    setState(() {
+      _infoCardRefreshKey++;
+    });
   }
 
   @override
@@ -227,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       const SizedBox(height: 14),
-                      const InfoCard(), // بيعيد تحميل البيانات تلقائيًا
+                      InfoCard(key: ValueKey(_infoCardRefreshKey)),
                       const SizedBox(height: 30),
                       const Text(
                         'Medicines 💊',
