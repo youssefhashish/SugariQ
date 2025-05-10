@@ -150,54 +150,59 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [
+          children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+              decoration: const BoxDecoration(
+                color: Colors.white,
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Reminder'),
-              onTap: () {
-                Navigator.pushNamed(context, '/reminder');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('My Report'),
-              onTap: () {
-                Navigator.pushNamed(context, '/progress');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.restaurant),
-              title: Text('Saved Meals'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => SavedMealsPage(
-                      onMealsUpdated: _refreshInfoCard,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              },
+                  IconButton(
+                    icon: const Icon(Icons.close, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
             ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+            _buildDrawerItem(Icons.bar_chart, 'MY REPORT', () {
+              Navigator.pushNamed(context, '/progress');
+            }),
+            _buildDrawerItem(Icons.notifications_none_outlined, 'REMINDERS',
+                () {
+              Navigator.pushNamed(context, '/reminder');
+            }),
+            _buildDrawerItem(Icons.bookmark_border, 'SAVED MEAL', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SavedMealsPage(
+                    onMealsUpdated: _refreshInfoCard,
+                  ),
+                ),
+              );
+            }),
+            const Divider(),
+            _buildDrawerItem(Icons.settings_outlined, 'SETTINGS', () {
+              Navigator.pushNamed(context, '/settings');
+            }),
+            _buildDrawerItem(Icons.headset_mic_outlined, 'HELP & CENTER', () {
+              // TODO: Navigate to Help & Center screen
+            }),
+            _buildDrawerItem(Icons.info_outline, 'ABOUT', () {
+              // TODO: Navigate to About screen
+            }),
           ],
         ),
       ),
@@ -264,6 +269,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: ChatBotButton(),
+    );
+  }
+
+  Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.black54),
+      title: Text(title,
+          style: const TextStyle(color: Colors.black87, fontSize: 16)),
+      onTap: onTap,
     );
   }
 }
