@@ -734,7 +734,7 @@ class _ReminderPageState extends State<ReminderPage> {
           }
 
           await flutterLocalNotificationsPlugin.zonedSchedule(
-            DateTime.now().millisecondsSinceEpoch ~/ 1000 + i, // unique ID
+            DateTime.now().millisecondsSinceEpoch ~/ 1000 + i,
             'Medication Reminder',
             'Time to take $medName (Dose ${i + 1})',
             tz.TZDateTime.from(scheduledDate, tz.local),
