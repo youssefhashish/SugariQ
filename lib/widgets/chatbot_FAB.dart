@@ -10,7 +10,7 @@ class ChatBotButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Chatbot()),
+          MaterialPageRoute(builder: (context) => ChatBotPage()),
         );
       },
       backgroundColor: Color(0xFF85C26F),

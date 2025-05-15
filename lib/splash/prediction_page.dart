@@ -23,10 +23,11 @@ class _PredictionScreenState extends State<PredictionScreen> {
   String? _selectedHypertension;
   String? _selectedHeartDisease;
 
+  String? _selectedGlucoseType;
   double? _calculatedBMI;
 
   bool? _predictionResult;
-
+  double? _predictionPercent;
   @override
   void dispose() {
     _weightController.dispose();
@@ -52,14 +53,48 @@ class _PredictionScreenState extends State<PredictionScreen> {
   Future<void> _simulatePrediction() async {
     final glucose = double.tryParse(_glucoseController.text) ?? 0;
     final hba1c = double.tryParse(_hba1cController.text) ?? 0;
+    double glucosePercent = 0;
+    double hba1cPercent = 0;
 
-    final isDiabetic = glucose > 125 || hba1c > 6.5;
+    if (_selectedGlucoseType == 'Fasting') {
+      if (glucose < 100) {
+        glucosePercent = 5;
+      } else if (glucose < 126) {
+        glucosePercent = 40;
+      } else {
+        glucosePercent = 90;
+      }
+    } else if (_selectedGlucoseType == 'Random') {
+      if (glucose < 140) {
+        glucosePercent = 5;
+      } else if (glucose < 200) {
+        glucosePercent = 40;
+      } else {
+        glucosePercent = 90;
+      }
+    } else {
+      glucosePercent = 0;
+    }
+
+    if (hba1c < 5.7) {
+      hba1cPercent = 5;
+    } else if (hba1c < 6.5) {
+      hba1cPercent = 40;
+    } else {
+      hba1cPercent = 90;
+    }
+
+    double percent = ((glucosePercent + hba1cPercent) / 2).clamp(0, 99);
+
+    final isDiabetic = percent >= 50;
 
     setState(() {
       _predictionResult = isDiabetic;
+      _predictionPercent = percent;
     });
 
-    PredictionResult.show(context, isDiabetic);
+    PredictionResult.show(
+        context, isDiabetic, percent, glucosePercent, hba1cPercent);
   }
 
   Widget _buildDropdownField(String label, String? selectedValue,
@@ -178,6 +213,20 @@ class _PredictionScreenState extends State<PredictionScreen> {
                   controller: _glucoseController,
                   label: 'Glucose',
                   keyboardType: TextInputType.number),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _selectedGlucoseType,
+                decoration: _inputDecoration('Glucose Type'),
+                items: ['Fasting', 'Random']
+                    .map((type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
+                        ))
+                    .toList(),
+                onChanged: (val) => setState(() => _selectedGlucoseType = val),
+                validator: (value) =>
+                    value == null ? 'Please select Glucose Type' : null,
+              ),
               const SizedBox(height: 12),
               _buildTextField(
                   controller: _hba1cController,
