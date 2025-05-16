@@ -187,7 +187,9 @@ class _MealsPageState extends State<MealsPage> {
         },
       );
     } catch (e) {
-      SnackBar(content: Text('Failed to fetch meals: $e'));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to laod meals, please try again later')),
+      );
     }
   }
 
