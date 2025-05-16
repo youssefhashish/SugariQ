@@ -146,17 +146,11 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedType = 'Gestational';
-                  });
-                },
+                onTap: null, // Disable tap for "Gestational"
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: selectedType == 'Gestational'
-                        ? Colors.purple.shade50
-                        : Colors.grey.shade50,
+                    color: Colors.grey.shade200, // Disabled appearance
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
@@ -167,29 +161,24 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(5),
-                          color: selectedType == 'Gestational'
-                              ? Colors.purple.shade300
-                              : Colors.transparent,
+                          color: Colors.transparent,
                           border: Border.all(
-                            color: selectedType == 'Gestational'
-                                ? Colors.purple.shade300
-                                : Colors.grey,
+                            color: Colors.grey,
                             width: 2,
                           ),
                         ),
-                        child: selectedType == 'Gestational'
-                            ? const Icon(
-                                Icons.check,
-                                size: 16,
-                                color: Colors.white,
-                              )
-                            : null,
                       ),
                       const SizedBox(width: 10),
                       Text(
                         'Gestational',
                         style: AppTextStyles.buttonText
-                            .copyWith(color: Colors.black),
+                            .copyWith(color: Colors.grey),
+                      ),
+                      const Spacer(),
+                      Text(
+                        'Coming Soon!',
+                        style: AppTextStyles.subtitle
+                            .copyWith(color: Color(0xFF6FBE5A), fontSize: 18),
                       ),
                     ],
                   ),

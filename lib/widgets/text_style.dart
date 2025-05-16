@@ -22,4 +22,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
+
+  static const subtitle = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Cera Pro',
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: Color(0xFF0A0A0A),
+  );
 }

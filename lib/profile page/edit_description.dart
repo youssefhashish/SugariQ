@@ -74,19 +74,25 @@ class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
                     child: Align(
                         alignment: Alignment.bottomCenter,
                         child: SizedBox(
-                          width: 350,
+                          width: 250,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF85C26F)),
+                            onPressed: () async {
                               // Validate returns true if the form is valid, or false otherwise.
                               if (_formKey.currentState!.validate()) {
                                 updateUserValue(descriptionController.text);
+                                await UserData.setUser(UserData.myUser);
                                 Navigator.pop(context);
                               }
                             },
                             child: const Text(
                               'Update',
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )))

@@ -48,7 +48,9 @@ class _EditImagePageState extends State<EditImagePage> {
       user = updatedUser;
     });
 
-    await UserData.setUser(updatedUser);
+    // await UserData.setUser(updatedUser);
+    await UserData.setUser(user);
+    UserData.updateImage(newImage.path);
   }
 
   @override
@@ -92,6 +94,30 @@ class _EditImagePageState extends State<EditImagePage> {
                         ),
                       ),
                     ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 250,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF85C26F),
+                  ),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserData.setUser(UserData.myUser);
+                  },
+                  child: const Text(
+                    'Update',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
                 Padding(

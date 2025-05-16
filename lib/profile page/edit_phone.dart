@@ -49,6 +49,18 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
     super.dispose();
   }
 
+  void updateUserValue(String phone) {
+    /*String formattedPhoneNumber = "(" +
+        phone.substring(0, 3) +
+        ") " +
+        phone.substring(3, 6) +
+        "-" +
+        phone.substring(6, phone.length);*/
+
+    UserData.updatePhone(phone);
+    //user.phone = formattedPhoneNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +88,7 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 40),
                         child: SizedBox(
+<<<<<<< HEAD
                           height: 100,
                           width: 320,
                           child: TextFormField(
@@ -86,13 +99,37 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
                                 return 'Only numbers please';
                               } else if (value.length < 10) {
                                 return 'Must be at least 10 digits';
+=======
+                          width: 250,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF85C26F),
+                            ),
+                            onPressed: () async {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (_formKey.currentState!.validate() &&
+                                  isNumeric(phoneController.text)) {
+                                updateUserValue(phoneController.text);
+                                await UserData.setUser(UserData.myUser);
+                                Navigator.pop(context);
+>>>>>>> ddd399b98404ea16d0d0e03e04be64c5795e9330
                               }
                               return null;
                             },
+<<<<<<< HEAD
                             controller: phoneController,
                             keyboardType: TextInputType.phone,
                             decoration: const InputDecoration(
                               labelText: 'Your Phone Number',
+=======
+                            child: const Text(
+                              'Update',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+>>>>>>> ddd399b98404ea16d0d0e03e04be64c5795e9330
                             ),
                           ),
                         ),

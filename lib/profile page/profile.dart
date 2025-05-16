@@ -18,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User? user;
 
-  @override
+  /*@override
   void initState() {
     super.initState();
     loadUser();
@@ -30,9 +30,12 @@ class _ProfilePageState extends State<ProfilePage> {
       user = u;
     });
   }
+    user = UserData.getUser();
+  }*/
 
   @override
   Widget build(BuildContext context) {
+    User user = UserData.getUser();
     return SafeArea(
       child: user == null
           ? Center(child: CircularProgressIndicator()) // show loader until user loads
@@ -144,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: 1),
             Container(
               width: 350,
-              height: 200,
+              height: 100,
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.grey, width: 1),

@@ -22,64 +22,55 @@ class ForYouPage extends StatelessWidget {
         children: const [
           SectionTitle(title: '✅ Diabetes Prevention Tips'),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1549576490-b0b4831ef60a',
+            image: 'assets/balanced_diet.jpeg',
             title: 'Eat a Balanced Diet',
             description:
                 'Reduce sugar and saturated fats. Focus on vegetables, fruits, and fiber.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1598970434795-0c54fe7c0642',
+            image: 'assets/stay_active.jpeg',
             title: 'Stay Physically Active',
             description:
                 '30 minutes of daily activity improves insulin sensitivity.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1588776814546-ec7b9b7f1755',
+            image: 'assets/healthy_weight.jpeg',
             title: 'Maintain a Healthy Weight',
             description:
                 'Weight management is key to preventing type 2 diabetes.',
           ),
           SectionTitle(title: '🩺 Managing Diabetes'),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1606811842433-09cdddf7e470',
+            image: 'assets/glucose_monitor.jpeg',
             title: 'Monitor Your Blood Glucose',
             description:
                 'Track your glucose levels daily using a glucose meter.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1611078489935-0cb9644f28bd',
+            image: 'assets/medication.jpeg',
             title: 'Follow Medication & Insulin Plans',
             description: 'Stick to your prescribed treatment and dosage.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1526256262350-7da7584cf5eb',
+            image: 'assets/checkup.jpeg',
             title: 'Routine Health Checkups',
             description:
                 'Regular visits to check eyes, kidneys, feet, and blood pressure.',
           ),
           SectionTitle(title: '🏋️‍♂️ Recommended Exercises'),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1571019613578-2b53d505b0f2',
+            image: 'assets/brisk_walk.jpeg',
             title: 'Brisk Walking',
             description:
                 'Helps reduce blood glucose levels and improve fitness.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1584467735871-86b1cdb2d1f5',
+            image: 'assets/yoga.jpeg',
             title: 'Yoga or Stretching',
             description: 'Lowers stress and supports glucose control.',
           ),
           TipCard(
-            imageUrl:
-                'https://images.unsplash.com/photo-1605296867304-46d5465a13f1',
+            image: 'assets/cycling.jpeg',
             title: 'Cycling or Swimming',
             description: 'Great for joints and improves circulation.',
           ),
@@ -113,13 +104,13 @@ class SectionTitle extends StatelessWidget {
 class TipCard extends StatelessWidget {
   final String title;
   final String description;
-  final String imageUrl;
+  final String image;
 
   const TipCard({
     super.key,
     required this.title,
     required this.description,
-    required this.imageUrl,
+    required this.image,
   });
 
   @override
@@ -132,16 +123,11 @@ class TipCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: Image.network(
-              imageUrl,
+            child: Image.asset(
+              image,
               height: 160,
               width: double.infinity,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                height: 160,
-                color: Colors.grey[300],
-                child: const Icon(Icons.broken_image),
-              ),
             ),
           ),
           Padding(

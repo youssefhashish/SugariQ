@@ -15,19 +15,32 @@ class UserData {
     aboutMeDescription: 'ADD YOUR DESCRIPTION HERE. (Optional)',
   );
 
-  static Future<void> setUser(User user) async {
-    try {
-      final currentUser = _auth.currentUser;
-      if (currentUser != null) {
-        await _firestore
-            .collection('users')
-            .doc(currentUser.uid)
-            .set(user.toJson(), SetOptions(merge: true));
-        myUser = user;
-      }
-    } catch (e) {
-      print('❌ Error updating user: $e');
-    }
+  static void updateUser(User user) {
+    myUser = user;
+  }
+
+  static void updateImage(String newImagePath) {
+    myUser.image = newImagePath;
+  }
+
+  static void updateName(String name) {
+    myUser.name = name;
+  }
+
+  static void updatePhone(String phone) {
+    myUser.phone = phone;
+  }
+
+  static void updateEmail(String email) {
+    myUser.email = email;
+  }
+
+  static Future init() async =>
+      _preferences = await SharedPreferences.getInstance();
+
+  static Future setUser(User user) async {
+    final json = jsonEncode(user.toJson());
+    await _preferences.setString(_keyUser, json);
   }
 
 static Future<User> getUser() async {
