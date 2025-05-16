@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Icon(Icons.person),
                               const SizedBox(width: 22),
                               Text(
-                                'Hi, Sophia',
+                                'Hi, Youssef',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'Convergence',

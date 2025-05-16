@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../components/speech_service.dart';
 
@@ -11,12 +12,9 @@ class ChatBotPage extends StatefulWidget {
 class _ChatBotPageState extends State<ChatBotPage> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
-  final String apiKey =
-      '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';
 
   final speechService = SpeechService();
   String _lastRecognizedText = '';
-
   bool _isListening = false;
 
   @override
@@ -31,11 +29,21 @@ class _ChatBotPageState extends State<ChatBotPage> {
     });
     _controller.clear();
 
+    final apiKey = dotenv.env['OPENROUTER_API_KEY'];
+    if (apiKey == null || apiKey.isEmpty) {
+      setState(() {
+        _messages.add({
+          'role': 'assistant',
+          'message': 'API key not found. Please check your configuration.',
+        });
+      });
+      return;
+    }
+
     final url = Uri.parse('https://openrouter.ai/api/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer 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',
+      'Authorization': 'Bearer $apiKey',
       'HTTP-Referer': 'SugarIQ',
     };
 

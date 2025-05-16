@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/splash/add_reminder.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   await UserData.init();
   final prefs = await SharedPreferences.getInstance();
   final Login = prefs.getBool("onboarding") ?? false;
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
