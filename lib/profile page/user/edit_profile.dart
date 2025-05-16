@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  // const EditProfile({Key? key}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -106,7 +106,7 @@ class _EditProfileState extends State<EditProfile> {
                     onPressed: _saveProfile,
                     child: Text('Save'),
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF85C26F),
+                      // primary: Color(0xFF85C26F),
                     ),
                   ),
           ],
