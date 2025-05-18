@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sugar_iq/screens/saved_meals.dart';
@@ -5,6 +7,9 @@ import 'package:sugar_iq/widgets/chatbot_FAB.dart';
 import '../../widgets/medicine_card.dart';
 import '../../widgets/info_card.dart';
 import '../components/mdecine_provider.dart';
+import '../main.dart';
+import '../profile page/user/user.dart';
+import '../profile page/user/user_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _infoCardRefreshKey++;
     });
+  }
+
+  late User user;
+  @override
+  void initState() {
+    super.initState();
+    user = UserData.getUser();
   }
 
   @override
@@ -86,6 +98,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          'Hi, Youssef',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontFamily: 'Convergence',
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: ValueListenableBuilder<String?>(
+              valueListenable: profileImageNotifier,
+              builder: (context, imagePath, _) {
+                return CircleAvatar(
+                  backgroundImage: (imagePath != null && imagePath.isNotEmpty)
+                      ? FileImage(File(imagePath))
+                      : AssetImage('assets/logo.jpg') as ImageProvider,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -96,26 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.person),
-                              const SizedBox(width: 22),
-                              Text(
-                                'Hi, Youssef',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Convergence',
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
                       const SizedBox(height: 14),
                       InfoCard(key: ValueKey(_infoCardRefreshKey)),
                       const SizedBox(height: 30),

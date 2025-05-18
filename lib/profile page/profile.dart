@@ -17,11 +17,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late User user;
 
-  /*@override
+  @override
   void initState() {
     super.initState();
     user = UserData.getUser();
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {

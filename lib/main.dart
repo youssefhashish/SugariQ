@@ -8,6 +8,7 @@ import 'package:sugar_iq/splash/prediction_page.dart';
 import '../splash/diabetes_type.dart';
 import '../splash/splash_screen.dart';
 import 'components/mdecine_provider.dart';
+import 'components/profile_image_notifier.dart';
 import 'profile page/profile.dart';
 import 'profile page/user/user_data.dart';
 import 'screens/report.dart';
@@ -21,6 +22,7 @@ import 'screens/reminder.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await UserData.init();
   final prefs = await SharedPreferences.getInstance();
   final Login = prefs.getBool("onboarding") ?? false;
@@ -34,6 +36,8 @@ Future<void> main() async {
     ),
   );
 }
+
+final profileImageNotifier = ProfileImageNotifier(UserData.getUser().image);
 
 class DiabetesPredictionApp extends StatelessWidget {
   final bool Login;

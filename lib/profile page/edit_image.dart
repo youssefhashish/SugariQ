@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:sugar_iq/main.dart';
 
 import 'user/user.dart';
 import 'user/user_data.dart';
@@ -39,6 +40,7 @@ class _EditImagePageState extends State<EditImagePage> {
     });
 
     await UserData.setUser(user);
+    profileImageNotifier.updateImage(newImage.path);
     UserData.updateImage(newImage.path);
   }
 
