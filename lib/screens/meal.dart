@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 import '../mealservices/add_meal.dart';
 import '../mealservices/spoonacular_services.dart';
 
@@ -284,7 +285,7 @@ class _MealsPageState extends State<MealsPage> {
               },
             ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF85C26F),
+        backgroundColor: AppTheme.primary,
         onPressed: _showMealPicker,
         child: Icon(Icons.add, size: 30, color: Colors.black),
       ),

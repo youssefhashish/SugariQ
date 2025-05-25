@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return CircleAvatar(
                   backgroundImage: (imagePath != null && imagePath.isNotEmpty)
                       ? FileImage(File(imagePath))
-                      : AssetImage('assets/logo.jpg') as ImageProvider,
+                      : AssetImage('assets/logo.png') as ImageProvider,
                 );
               },
             ),

@@ -1,41 +1,41 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 class DisplayImage extends StatelessWidget {
   final String imagePath;
   final VoidCallback onPressed;
 
   const DisplayImage({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final color = Color(0xFF85C26F);
+    final color = AppTheme.primary;
 
     return Center(
         child: Stack(children: [
       buildImage(color),
       Positioned(
-        child: buildEditIcon(color),
         right: 4,
         top: 10,
+        child: buildEditIcon(color),
       )
     ]));
   }
 
-  //Profile Image
   Widget buildImage(Color color) {
-    final image = imagePath.contains('assets/logo.jpg')
-        ? AssetImage(imagePath)
+    final image = (imagePath.isEmpty || !File(imagePath).existsSync())
+        ? const AssetImage('assets/logo.png')
         : FileImage(File(imagePath)) as ImageProvider;
 
     return CircleAvatar(
       radius: 75,
-      backgroundColor: color,
+      backgroundColor: AppTheme.primary,
       child: CircleAvatar(
         backgroundImage: image,
         radius: 70,
@@ -48,7 +48,7 @@ class DisplayImage extends StatelessWidget {
       all: 8,
       child: Icon(
         Icons.edit,
-        color: color,
+        color: AppTheme.primary,
         size: 20,
       ));
 

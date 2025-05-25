@@ -5,6 +5,7 @@ import 'package:sugar_iq/screens/home.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:sugar_iq/screens/meal.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 class BottomNavWrapper extends StatefulWidget {
   const BottomNavWrapper({super.key, this.initialIndex = 0});
@@ -55,7 +56,7 @@ class _BottomNavWrapperState extends State<BottomNavWrapper> {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
-        buttonBackgroundColor: const Color(0xFF85C26F),
+        buttonBackgroundColor: AppTheme.primary,
         height: 60,
         backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../components/speech_service.dart';
+import '../widgets/app_theme.dart';
 
 class ChatBotPage extends StatefulWidget {
   @override
@@ -151,7 +152,8 @@ Always provide clear, accurate, and helpful information tailored for diabetic pa
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.green, width: 2),
+                        borderSide:
+                            BorderSide(color: AppTheme.primary, width: 2),
                       ),
                     ),
                   ),
@@ -183,8 +185,7 @@ Always provide clear, accurate, and helpful information tailored for diabetic pa
                 SizedBox(width: 8),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF4CAF50),
-                  ),
+                      backgroundColor: AppTheme.primary),
                   onPressed: () {
                     if (_controller.text.trim().isNotEmpty) {
                       _sendMessage(_controller.text.trim());

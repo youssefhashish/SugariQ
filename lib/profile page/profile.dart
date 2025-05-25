@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'edit_description.dart';
-import 'edit_email.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
+import 'package:provider/provider.dart';
+import '../components/mdecine_provider.dart';
 import 'edit_image.dart';
-import 'edit_name.dart';
-import 'edit_phone.dart';
 import 'user/display_image.dart';
 import 'user/user.dart';
 import 'user/user_data.dart';
+import 'profile_edit.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -16,35 +18,61 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late User user;
+  List<Map<String, dynamic>> reminders = [];
 
   @override
   void initState() {
     super.initState();
     user = UserData.getUser();
+    _loadReminders();
+  }
+
+  Future<void> _loadReminders() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? reminderStrings = prefs.getStringList('glucose_reminders');
+    if (reminderStrings != null) {
+      setState(() {
+        reminders = reminderStrings.map((str) {
+          final data = json.decode(str);
+          return {
+            'type': data['type'],
+            'time':
+                TimeOfDay(hour: data['timeHour'], minute: data['timeMinute']),
+          };
+        }).toList();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    User user = UserData.getUser();
-    return SafeArea(
-      child: Column(
+    user = UserData.getUser();
+    final meds = Provider.of<MedicationProvider>(context).medications;
+    return ListView(children: [
+      Column(
         children: [
           AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            toolbarHeight: 10,
-          ),
-          Center(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF85C26F),
-                    ),
-                  ))),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              iconTheme: IconThemeData(color: Colors.black),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.info_outline),
+                  onPressed: () {
+                    navigateSecondPage(ProfileEditPage());
+                  },
+                ),
+              ],
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                  color: AppTheme.primary,
+                ),
+              )),
+          const SizedBox(height: 20),
           InkWell(
               onTap: () {
                 navigateSecondPage(EditImagePage());
@@ -53,114 +81,115 @@ class _ProfilePageState extends State<ProfilePage> {
                 imagePath: user.image,
                 onPressed: () {},
               )),
-          buildUserInfoDisplay(user.name, 'Name', EditNameFormPage()),
-          buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
-          buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
-          Expanded(
-            flex: 4,
-            child: buildAbout(user),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildUserInfoDisplay(String getValue, String title, Widget editPage) =>
-      Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.08),
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
                 ),
-              ),
-              SizedBox(height: 1),
-              Container(
-                  width: 350,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
-                  ))),
-                  child: Row(children: [
-                    Expanded(
-                        child: TextButton(
-                            onPressed: () {
-                              navigateSecondPage(editPage);
-                            },
-                            child: Text(
-                              getValue,
-                              style: TextStyle(fontSize: 16, height: 1.4),
-                            ))),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey,
-                      size: 40.0,
-                    )
-                  ]))
-            ],
-          ));
-
-  Widget buildAbout(User user) => Padding(
-      padding: EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Tell Us About Yourself',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
+              ],
+            ),
+            child: Column(
+              children: [
+                Text(
+                  user.name,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  user.aboutMeDescription,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 1),
-          Container(
-              width: 350,
-              height: 100,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                color: Colors.grey,
-                width: 1,
-              ))),
-              child: Row(children: [
-                Expanded(
-                    child: TextButton(
-                        onPressed: () {
-                          navigateSecondPage(EditDescriptionFormPage());
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  user.aboutMeDescription,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.4,
-                                  ),
-                                ))))),
-                Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Colors.grey,
-                  size: 40.0,
-                )
-              ])),
+          if (reminders.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Reminders',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                  ),
+                ),
+              ),
+            ),
+            ...reminders.map((reminder) {
+              final time = reminder['time'] as TimeOfDay;
+              final type = reminder['type'] as String;
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                child: Card(
+                  color: Colors.white,
+                  elevation: 1,
+                  child: ListTile(
+                    leading: Icon(Icons.alarm, color: AppTheme.primary),
+                    title: Text(type),
+                    subtitle: Text(time.format(context)),
+                  ),
+                ),
+              );
+            }).toList(),
+          ],
+          if (meds.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Medicines',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                  ),
+                ),
+              ),
+            ),
+            ...meds.map((med) => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 1,
+                    child: ListTile(
+                      leading: const Icon(Icons.medication_outlined,
+                          color: Colors.purple),
+                      title: Text(med.name),
+                      subtitle: Text(
+                          med.times.map((t) => t.format(context)).join(', ')),
+                      trailing: Text('${med.timesPerDay} times'),
+                    ),
+                  ),
+                )),
+          ],
         ],
-      ));
+      ),
+    ]);
+  }
 
   FutureOr onGoBack(dynamic value) {
     setState(() {
-      user = UserData
-          .getUser(); // Refresh user data after returning from edit page
+      user = UserData.getUser();
     });
   }
 

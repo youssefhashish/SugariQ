@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'App Settings',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SettingsScreen(),
-    );
-  }
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool isNotificationOn = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +20,28 @@ class SettingsScreen extends StatelessWidget {
         children: [
           // Account Section
           _buildSectionTitle('Account'),
-          _buildSettingItem('Manage Profile', Icons.person_outline),
-          _buildDivider(),
-          _buildSettingItem('Notification', Icons.notifications_outlined),
 
+          _buildDivider(),
+          // Notification Switch
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Row(
+              children: [
+                const Icon(Icons.notifications_outlined, color: Colors.grey),
+                const SizedBox(width: 20),
+                const Text('Notification', style: TextStyle(fontSize: 16)),
+                const Spacer(),
+                Switch(
+                  value: isNotificationOn,
+                  onChanged: (val) {
+                    setState(() {
+                      isNotificationOn = val;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
           // About Section
           _buildSectionTitle('About'),
           _buildSettingItem('Rate Us', Icons.star_outline),
@@ -57,8 +63,6 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
           ),
-
-          // Bottom Buttons
           const Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -151,7 +155,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Logged out successfully')),
               );

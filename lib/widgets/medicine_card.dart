@@ -35,7 +35,7 @@ class MedicineCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
-              'assets/logo.jpg',
+              'assets/logo.png',
               width: 94,
               height: 94,
               fit: BoxFit.cover,

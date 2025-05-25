@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widgets/custom_button.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 import '../../validator.dart';
 import '../widgets/custom_text_filed.dart';
 
@@ -12,6 +12,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController firstname = TextEditingController();
   final TextEditingController lastname = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -31,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
 
     firstnameField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
@@ -44,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     lastnameField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
@@ -57,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     emailField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
@@ -70,20 +72,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     phonenumberField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
       controller: phonenumber,
       obscureText: false,
       hint: "Phone Number",
-      inputType: TextInputType.number,
+      inputType: TextInputType.phone,
       validator: Validator.validateNumber,
       onChanged: (value) {},
     );
 
     passwordField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
@@ -96,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     reenterpasswordField = CustomTextField(
-      baseColor: Color(0xFF5FB794),
+      baseColor: AppTheme.primary,
       hintColor: Colors.grey,
       borderColor: Colors.grey.shade300,
       errorColor: Colors.red,
@@ -112,112 +114,122 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF85C26F),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.of(context).pop(null),
-            ),
-          ],
-          leading: Container(),
+      backgroundColor: const Color(0xFFF8F8FB),
+      appBar: AppBar(
+        backgroundColor: AppTheme.primary,
+        elevation: 0,
+        title: const Text(
+          "Sign Up",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, left: 30.0, right: 10.0),
-                    child: Text(
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+            child: Form(
+              key: _formKey,
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.08),
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
                       "Register for an Account",
                       style: TextStyle(
+                        fontSize: 26.0,
+                        fontWeight: FontWeight.bold,
                         fontFamily: "OpenSans-Bold",
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF222B45),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 10.0),
-                    child: Text(
+                    const SizedBox(height: 8.0),
+                    const Text(
                       "Welcome!",
                       style: TextStyle(
-                        fontFamily: "OpenSans-Bold",
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF5FB794),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 1.0, left: 30.0, right: 30.0),
-                    child: Text(
-                      "We just need to get a few details from you to get you signed up to this service.",
-                      style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 12.0,
+                    const SizedBox(height: 6.0),
+                    const Text(
+                      "We just need a few details to get you signed up.",
+                      style: TextStyle(fontSize: 16.0, color: Colors.black54),
+                    ),
+                    const SizedBox(height: 24.0),
+                    firstnameField,
+                    const SizedBox(height: 10),
+                    lastnameField,
+                    const SizedBox(height: 10),
+                    emailField,
+                    const SizedBox(height: 10),
+                    phonenumberField,
+                    const SizedBox(height: 10),
+                    passwordField,
+                    const SizedBox(height: 10),
+                    reenterpasswordField,
+                    const SizedBox(height: 30.0),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 2,
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState != null &&
+                              _formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, '/prediction');
+                          }
+                        },
+                        child: const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, left: 30.0, right: 30.0),
-                    child: firstnameField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 30.0),
-                    child: lastnameField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 30.0),
-                    child: emailField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 30.0),
-                    child: phonenumberField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 30.0),
-                    child: passwordField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 30.0, right: 30.0),
-                    child: reenterpasswordField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 30.0, left: 30.0, right: 30.0, bottom: 30.0),
-                    child: CustomFlatButton(
-                      title: "Submit",
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/splash');
-                      },
-                      splashColor: Colors.black12,
-                      borderColor: Colors.black,
-                      borderWidth: 0,
-                      color: Color(0xFF85C26F),
-                    ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

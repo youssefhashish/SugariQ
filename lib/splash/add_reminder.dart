@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sugar_iq/screens/login.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -82,7 +83,7 @@ class _AddReminderState extends State<AddReminder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 51.0, 24.0, 0.0),
@@ -94,7 +95,7 @@ class _AddReminderState extends State<AddReminder> {
                 width: double.infinity,
                 height: 6,
                 child: CustomPaint(
-                  painter: ProgressBarPainter(progress: 1), // 100% progress
+                  painter: ProgressBarPainter(progress: 1),
                 ),
               ),
               const SizedBox(height: 45),
@@ -190,15 +191,13 @@ class _AddReminderState extends State<AddReminder> {
 
               // Get Started Button
               Container(
-                height: 52,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 44,
+                ),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xFF6FBE5A), Color(0xFF85C26F)],
-                    transform: GradientRotation(104 * 3.14159 / 180),
-                  ),
+                  color: AppTheme.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextButton(
@@ -221,7 +220,7 @@ class _AddReminderState extends State<AddReminder> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 40),
             ],
           ),
         ),

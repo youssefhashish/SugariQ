@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sugar_iq/screens/login.dart';
 import '../components/onboarding_items.dart';
+import '../widgets/app_theme.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -21,8 +22,8 @@ class _OnBoardingState extends State<OnBoarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomSheet: Container(
-        color: Colors.grey[900],
-        height: 80,
+        color: isLastPage ? AppTheme.primary : Colors.white,
+        height: 100,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: isLastPage
             ? getStarted()
@@ -30,7 +31,6 @@ class _OnBoardingState extends State<OnBoarding> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(children: [
-                    //Indicator
                     SmoothPageIndicator(
                       controller: pageController,
                       count: controller.items.length,
@@ -41,30 +41,26 @@ class _OnBoardingState extends State<OnBoarding> {
                       effect: const WormEffect(
                         dotHeight: 12,
                         dotWidth: 12,
-                        activeDotColor: Color(0xFF6FBE5A),
+                        activeDotColor: Colors.black,
                       ),
                     ),
-
                     SizedBox(
                       height: 10,
                     ),
-
-                    //Skip Button
                     TextButton(
                         onPressed: () => pageController
                             .jumpToPage(controller.items.length - 1),
                         child: const Text(
                           "Skip",
-                          style: TextStyle(color: Colors.white, fontSize: 17),
+                          style: TextStyle(color: Colors.black, fontSize: 17),
                         )),
                   ]),
-
-                  //Next Button
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Color(0xFF6FBE5A),
+                      color: AppTheme.buttonColor,
                     ),
+                    width: MediaQuery.of(context).size.width * .3,
                     child: TextButton(
                         onPressed: () => pageController.nextPage(
                             duration: const Duration(milliseconds: 600),
@@ -78,7 +74,7 @@ class _OnBoardingState extends State<OnBoarding> {
               ),
       ),
       body: Container(
-        color: Colors.grey[900],
+        color: isLastPage ? AppTheme.primary : Colors.white,
         child: PageView.builder(
             onPageChanged: (index) => setState(
                 () => isLastPage = controller.items.length - 1 == index),
@@ -89,24 +85,11 @@ class _OnBoardingState extends State<OnBoarding> {
                 children: [
                   Image.asset(
                     controller.items[index].image,
-                    height: 653,
+                    height: 660,
                     width: 400,
                     fit: BoxFit.cover,
                     alignment: controller.items[index].alignment,
                   ),
-                  const SizedBox(height: 15),
-                  Text(
-                    controller.items[index].title,
-                    style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(controller.items[index].descriptions,
-                      style: const TextStyle(color: Colors.grey, fontSize: 17),
-                      textAlign: TextAlign.left),
                 ],
               );
             }),
@@ -117,14 +100,15 @@ class _OnBoardingState extends State<OnBoarding> {
   // one time onboarding
 
   Widget getStarted() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Color(0xFF6FBE5A),
-      ),
-      width: MediaQuery.of(context).size.width * .9,
-      height: 55,
-      child: TextButton(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+        ),
+        width: MediaQuery.of(context).size.width * .7,
+        child: TextButton(
           onPressed: () async {
             final pres = await SharedPreferences.getInstance();
             pres.setBool("Login", true);
@@ -137,8 +121,13 @@ class _OnBoardingState extends State<OnBoarding> {
           },
           child: const Text(
             "Get started",
-            style: TextStyle(color: Colors.white),
-          )),
+            style: TextStyle(
+                color: AppTheme.primary,
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
     );
   }
 }

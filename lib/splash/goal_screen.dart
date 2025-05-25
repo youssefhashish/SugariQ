@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 import '../widgets/progress_indicator.dart';
 
@@ -17,20 +18,20 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 30),
               // Progress Bar
               SizedBox(
                 width: double.infinity,
                 height: 6,
                 child: CustomPaint(
-                  painter: ProgressBarPainter(progress: 0.75), // 75% progress
+                  painter: ProgressBarPainter(progress: 0.75),
                 ),
               ),
               const SizedBox(height: 40),
@@ -48,12 +49,10 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                     TextSpan(
                       text: 'before',
                       style: TextStyle(
-                        foreground: Paint()
-                          ..shader = const LinearGradient(
-                            colors: [Color(0xFF6FBE5A), Color(0xFF85C26F)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ).createShader(const Rect.fromLTWH(0, 0, 100, 50)),
+                        fontFamily: 'Convergence',
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primary,
                       ),
                     ),
                     const TextSpan(text: ' meal? 🍏'),
@@ -64,7 +63,6 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
               // Input Fields
               Column(
                 children: [
-                  // First Input Field
                   Container(
                     width: double.infinity,
                     height: 60,
@@ -73,7 +71,7 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: isFirstInputActive
-                            ? const Color(0xFF6FBE5A)
+                            ? AppTheme.primary
                             : const Color(0xFFE0E3E6),
                         width: 1,
                       ),
@@ -123,7 +121,6 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Second Input Field
                   Container(
                     width: double.infinity,
                     height: 60,
@@ -132,7 +129,7 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: !isFirstInputActive
-                            ? const Color(0xFF6FBE5A)
+                            ? AppTheme.primary
                             : const Color(0xFFE0E3E6),
                         width: 1,
                       ),
@@ -193,11 +190,7 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF6FBE5A), Color(0xFF85C26F)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  color: AppTheme.primary,
                 ),
                 child: TextButton(
                   onPressed: () {
@@ -219,7 +212,7 @@ class _BloodSugarGoalScreenState extends State<BloodSugarGoalScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
             ],
           ),
         ),

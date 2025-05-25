@@ -52,7 +52,8 @@ class PredictionResult {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () =>
+                    Navigator.popAndPushNamed(context, '/goalScreen'),
                 child: const Text('OK'),
               ),
             ],

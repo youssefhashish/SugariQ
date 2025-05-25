@@ -1,5 +1,7 @@
-/*import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/app_theme.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
@@ -18,7 +20,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       _message = null;
     });
 
-    try {
+    /*try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text.trim());
 
@@ -28,9 +30,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       });
     } on FirebaseAuthException catch (e) {
       setState(() {
-        _message = "❌ Error: ${e.message}";
+        _message = "❌ Error: \${e.message}";
       });
-    }
+    }*/
 
     setState(() {
       _loading = false;
@@ -40,59 +42,90 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Forgot Password')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Text(
-              'Enter your email to receive a password reset link.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email address.';
-                  }
-                  return null;
-                },
+      backgroundColor: const Color(0xFFF1F4F8),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
               ),
-            ),
-            SizedBox(height: 20),
-            _loading
-                ? CircularProgressIndicator()
-                : ElevatedButton.icon(
-                    icon: Icon(Icons.send),
-                    label: Text('Send Reset Link'),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _resetPassword();
-                      }
-                    },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/Forget_Pasword.png',
+                    height: 300,
                   ),
-            if (_message != null) ...[
-              SizedBox(height: 20),
-              Text(
-                _message!,
-                style: TextStyle(
-                  color: _message!.startsWith("❌") ? Colors.red : Colors.green,
-                ),
-                textAlign: TextAlign.center,
+                  const SizedBox(height: 30),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'E-mail',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: _loading
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                _resetPassword();
+                              }
+                            },
+                      child: _loading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Reset Password',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (_message != null)
+                    Text(
+                      _message!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: _message!.startsWith("❌")
+                            ? Colors.red
+                            : Colors.green,
+                      ),
+                    ),
+                ],
               ),
-            ]
-          ],
+            ),
+          ),
         ),
       ),
     );
   }
-}*/
+}

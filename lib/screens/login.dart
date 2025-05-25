@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 import '../../validator.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/custom_button.dart';
@@ -21,7 +22,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     usernameField = CustomTextField(
@@ -54,7 +54,7 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade50,
       body: Stack(
         children: <Widget>[
           Stack(
@@ -64,7 +64,10 @@ class _LogInScreenState extends State<LogInScreen> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: Image.asset("assets/logo.jpg"),
+                    child: Image.asset(
+                      "assets/login_logo.png",
+                      height: 400,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -84,7 +87,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontWeight: FontWeight.w700,
                         textColor: Colors.black,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgetPassword');
+                          Navigator.pushNamed(context, '/forgotPassword');
                         },
                         splashColor: Colors.black12,
                         borderColor: Colors.transparent,
@@ -109,16 +112,16 @@ class _LogInScreenState extends State<LogInScreen> {
                       splashColor: Colors.black12,
                       borderColor: Colors.black,
                       borderWidth: 0,
-                      color: Color(0xFF85C26F),
+                      color: AppTheme.primary,
                     ),
                   ),
                   Padding(
                       padding: const EdgeInsets.only(left: 80.0, right: 80.0),
                       child: CustomFlatButton(
-                        title: "Don’t have an account? Register",
+                        title: "Don’t have an account?",
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        textColor: Color(0xFFAC0808),
+                        textColor: AppTheme.primaryBlue,
                         onPressed: () {
                           Navigator.of(context).pushNamed("/signup");
                         },

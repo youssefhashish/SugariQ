@@ -43,32 +43,31 @@ class _CustomTextFieldState extends State<CustomTextField> {
       elevation: 0.0,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: currentColor, width: 1.5),
-        borderRadius: BorderRadius.circular(0.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: TextField(
-          obscureText: widget.obscureText,
-          onChanged: (text) {
-            widget.onChanged(text);
-            setState(() {
-              if (!widget.validator(text) || text.length == 0) {
-                currentColor = widget.errorColor;
-              } else {
-                currentColor = widget.baseColor;
-              }
-            });
-          },
-          controller: widget.controller,
-          decoration: InputDecoration(
-              hintStyle: TextStyle(
-                color: widget.hintColor,
-                fontFamily: "OpenSans",
-                fontWeight: FontWeight.w300,
-              ),
-              border: InputBorder.none,
-              hintText: widget.hint),
-        ),
+      child: TextField(
+        obscureText: widget.obscureText,
+        onChanged: (text) {
+          widget.onChanged(text);
+          setState(() {
+            if (!widget.validator(text) || text.length == 0) {
+              currentColor = widget.errorColor;
+            } else {
+              currentColor = widget.baseColor;
+            }
+          });
+        },
+        controller: widget.controller,
+        decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintStyle: TextStyle(
+              color: widget.hintColor,
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w300,
+            ),
+            border: InputBorder.none,
+            hintText: widget.hint),
       ),
     );
   }

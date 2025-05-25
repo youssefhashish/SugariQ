@@ -78,7 +78,6 @@ class _MyReportPageState extends State<MyReportPage> {
       filteredMeasurements =
           measurements.where((m) => m.dateTime.isAfter(weekAgo)).toList();
     } else {
-      // MONTHLY
       final monthAgo = now.subtract(Duration(days: 30));
       filteredMeasurements =
           measurements.where((m) => m.dateTime.isAfter(monthAgo)).toList();
@@ -109,21 +108,29 @@ class _MyReportPageState extends State<MyReportPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("Cancel"),
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (_glucoseController.text.isNotEmpty) {
-                final value = double.tryParse(_glucoseController.text);
-                if (value != null) {
-                  _saveMeasurement(value);
-                  _glucoseController.clear();
-                  Navigator.pop(context);
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(216, 39, 148, 148),
+              ),
+              onPressed: () {
+                if (_glucoseController.text.isNotEmpty) {
+                  final value = double.tryParse(_glucoseController.text);
+                  if (value != null) {
+                    _saveMeasurement(value);
+                    _glucoseController.clear();
+                    Navigator.pop(context);
+                  }
                 }
-              }
-            },
-            child: Text("Save"),
-          ),
+              },
+              child: Text(
+                "Save",
+                style: TextStyle(color: Colors.white),
+              )),
         ],
       ),
     );
@@ -151,13 +158,13 @@ class _MyReportPageState extends State<MyReportPage> {
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF85C26F),
+                      backgroundColor: const Color.fromARGB(216, 39, 148, 148),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Text("close",
-                        style: TextStyle(fontSize: 17, color: Colors.black)),
+                    child: Text("Close",
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ],
               ),
@@ -179,6 +186,7 @@ class _MyReportPageState extends State<MyReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         title: Text("My Report"),
         centerTitle: true,
         leading: IconButton(
@@ -193,6 +201,13 @@ class _MyReportPageState extends State<MyReportPage> {
             },
           ),
         ],
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -239,7 +254,10 @@ class _MyReportPageState extends State<MyReportPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (avgGlucose > 100) ...[
+                      if (avgGlucose == 0) ...[
+                        Text('No measurements added yet',
+                            style: TextStyle(fontSize: 18, color: Colors.grey)),
+                      ] else if (avgGlucose > 100) ...[
                         Text('👍', style: TextStyle(fontSize: 23)),
                         SizedBox(width: 8),
                         Text('${avgGlucose.toStringAsFixed(1)} mg/dl',
@@ -266,8 +284,8 @@ class _MyReportPageState extends State<MyReportPage> {
             Center(
               child: FloatingActionButton(
                 onPressed: _showAddMeasurementDialog,
-                backgroundColor: Color(0xFF85C26F),
-                child: Icon(Icons.add, color: Colors.black, size: 25),
+                backgroundColor: const Color.fromARGB(216, 39, 148, 148),
+                child: Icon(Icons.add, color: Colors.white, size: 25),
               ),
             ),
           ],
@@ -293,7 +311,6 @@ class _MyReportPageState extends State<MyReportPage> {
       filteredMeasurements =
           measurements.where((m) => m.dateTime.isAfter(weekAgo)).toList();
     } else {
-      // MONTHLY
       final monthAgo = now.subtract(Duration(days: 30));
       filteredMeasurements =
           measurements.where((m) => m.dateTime.isAfter(monthAgo)).toList();

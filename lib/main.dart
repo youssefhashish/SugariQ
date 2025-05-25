@@ -4,13 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/splash/add_reminder.dart';
 import 'package:sugar_iq/splash/prediction_page.dart';
+import 'package:sugar_iq/splash/splash_screen.dart';
 
-import '../splash/diabetes_type.dart';
-import '../splash/splash_screen.dart';
+import 'profile page/Health_info.dart';
 import 'components/mdecine_provider.dart';
 import 'components/profile_image_notifier.dart';
 import 'profile page/profile.dart';
 import 'profile page/user/user_data.dart';
+import 'screens/forget_password.dart';
 import 'screens/report.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
@@ -25,14 +26,14 @@ Future<void> main() async {
 
   await UserData.init();
   final prefs = await SharedPreferences.getInstance();
-  final Login = prefs.getBool("onboarding") ?? false;
+  final isLoggedIn = prefs.getBool("Login") ?? false;
   await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MedicationProvider()),
       ],
-      child: DiabetesPredictionApp(Login: Login),
+      child: DiabetesPredictionApp(isLoggedIn: isLoggedIn),
     ),
   );
 }
@@ -40,24 +41,24 @@ Future<void> main() async {
 final profileImageNotifier = ProfileImageNotifier(UserData.getUser().image);
 
 class DiabetesPredictionApp extends StatelessWidget {
-  final bool Login;
+  final bool isLoggedIn;
 
-  const DiabetesPredictionApp({super.key, required this.Login});
+  const DiabetesPredictionApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SugarIQ',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],
+        primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: Login ? LogInScreen() : OnBoarding(),
+      home: SplashScreen(), // Always start with splash screen
       routes: {
         '/goalScreen': (context) => BloodSugarGoalScreen(),
-        '/diabetesType': (context) => DiabetesTypeScreen(),
-        '/splash': (context) => SplashScreen(),
+        //'/diabetesType': (context) => DiabetesTypeScreen(),
+        '/health_info': (context) => HealthInfo(),
         '/login': (context) => LogInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/home': (context) => HomeScreen(),
@@ -67,6 +68,8 @@ class DiabetesPredictionApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/addReminder': (context) => AddReminder(),
         '/prediction': (context) => PredictionScreen(),
+        '/forgotPassword': (context) => ForgotPasswordPage(),
+        '/onboarding': (context) => OnBoarding(),
       },
     );
   }

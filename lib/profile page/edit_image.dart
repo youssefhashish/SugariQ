@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sugar_iq/main.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 import 'user/user.dart';
 import 'user/user_data.dart';
@@ -36,7 +37,7 @@ class _EditImagePageState extends State<EditImagePage> {
     final newImage = await File(image.path).copy(imageFile.path);
 
     setState(() {
-      user = user.copy(imagePath: newImage.path);
+      user = user.copy(imagePath: newImage.path, aboutMeDescription: '');
     });
 
     await UserData.setUser(user);
@@ -94,7 +95,7 @@ class _EditImagePageState extends State<EditImagePage> {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF85C26F),
+                    backgroundColor: AppTheme.primary,
                   ),
                   onPressed: () async {
                     Navigator.pop(context);

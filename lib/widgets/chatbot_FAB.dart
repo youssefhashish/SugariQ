@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sugar_iq/screens/chatbot.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 class ChatBotButton extends StatelessWidget {
   const ChatBotButton({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class ChatBotButton extends StatelessWidget {
           MaterialPageRoute(builder: (context) => ChatBotPage()),
         );
       },
-      backgroundColor: Color(0xFF85C26F),
+      backgroundColor: AppTheme.primary,
       child: Icon(
         Icons.chat,
         color: Colors.white,

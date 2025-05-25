@@ -40,7 +40,7 @@ class ProgressBarPainter extends CustomPainter {
 
     // Progress
     final progressPaint = Paint()
-      ..color = const Color(0xFFED6461)
+      ..color = const Color(0xFF00BF39).withOpacity(0.2)
       ..style = PaintingStyle.fill;
 
     final progressRect = RRect.fromRectAndRadius(
