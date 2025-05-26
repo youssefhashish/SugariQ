@@ -8,20 +8,17 @@ class CustomFlatButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color splashColor;
-  final Color borderColor;
-  final double borderWidth;
 
-  const CustomFlatButton(
-      {super.key,
-      required this.title,
-      required this.textColor,
-      required this.fontSize,
-      required this.fontWeight,
-      required this.onPressed,
-      required this.color,
-      required this.splashColor,
-      required this.borderColor,
-      required this.borderWidth});
+  const CustomFlatButton({
+    super.key,
+    required this.title,
+    required this.textColor,
+    required this.fontSize,
+    required this.fontWeight,
+    required this.onPressed,
+    required this.color,
+    required this.splashColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,6 @@ class CustomFlatButton extends StatelessWidget {
         backgroundColor: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-          side: BorderSide(color: borderColor, width: 1.0),
         ),
       ),
       child: Padding(

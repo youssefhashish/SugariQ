@@ -90,8 +90,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           Navigator.pushNamed(context, '/forgotPassword');
                         },
                         splashColor: Colors.black12,
-                        borderColor: Colors.transparent,
-                        borderWidth: 0,
                         color: Colors.transparent,
                       )),
                   Padding(
@@ -110,8 +108,6 @@ class _LogInScreenState extends State<LogInScreen> {
                         );
                       },
                       splashColor: Colors.black12,
-                      borderColor: Colors.black,
-                      borderWidth: 0,
                       color: AppTheme.primary,
                     ),
                   ),
@@ -126,8 +122,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           Navigator.of(context).pushNamed("/signup");
                         },
                         splashColor: Colors.black12,
-                        borderColor: Colors.transparent,
-                        borderWidth: 0,
                         color: Colors.transparent,
                       ))
                 ],

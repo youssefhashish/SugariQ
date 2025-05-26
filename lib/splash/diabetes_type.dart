@@ -5,6 +5,7 @@ import '../widgets/loading_dialog.dart';
 import '../widgets/prediction_result.dart';
 import '../widgets/progress_indicator.dart';
 import '../widgets/text_style.dart';
+import 'prediction_page.dart';
 
 class DiabetesTypeScreen extends StatefulWidget {
   final PredictionData predictionData;
@@ -242,6 +243,9 @@ class _DiabetesTypeScreenState extends State<DiabetesTypeScreen> {
     setState(() {
       _predictionResult = isDiabetic;
       _predictionPercent = risk;
+      selectedType = diabetesType;
+      PredictionScreen.lastDiabetesType = selectedType;
+      DiabetesTypeScreen.selectedDiabetesType = selectedType;
     });
 
     PredictionResult.show(

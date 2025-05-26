@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:sugar_iq/screens/login.dart';
 import 'package:sugar_iq/screens/onBoarding.dart';
 
 class SplashScreen extends StatefulWidget {
