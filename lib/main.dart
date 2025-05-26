@@ -20,6 +20,7 @@ import 'screens/settings.dart';
 import 'screens/signup.dart';
 import 'splash/goal_screen.dart';
 import 'screens/reminder.dart';
+import 'widgets/Privacy&Policy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,6 +71,7 @@ class DiabetesPredictionApp extends StatelessWidget {
         '/prediction': (context) => PredictionScreen(),
         '/forgotPassword': (context) => ForgotPasswordPage(),
         '/onboarding': (context) => OnBoarding(),
+        '/privacy': (context) => PrivacyPolicyWidget(),
       },
     );
   }

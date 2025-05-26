@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sugar_iq/profile%20page/profile_edit.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -15,24 +17,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: Colors.white,
       ),
       body: Column(
         children: [
-          // Account Section
           _buildSectionTitle('Account'),
-
+          _buildSettingItem('Manage Profile', Icons.person),
           _buildDivider(),
-          // Notification Switch
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Row(
               children: [
-                const Icon(Icons.notifications_outlined, color: Colors.grey),
+                const Icon(Icons.notifications, color: Colors.grey),
                 const SizedBox(width: 20),
                 const Text('Notification', style: TextStyle(fontSize: 16)),
                 const Spacer(),
                 Switch(
                   value: isNotificationOn,
+                  activeColor: AppTheme.buttonColor,
                   onChanged: (val) {
                     setState(() {
                       isNotificationOn = val;
@@ -70,16 +72,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.red,
-                  side: const BorderSide(color: Colors.red),
+                  backgroundColor: Colors.grey.shade300,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 onPressed: () => _showLogoutConfirmation(context),
-                child: const Text('LOG OUT'),
+                child: const Text(
+                  'LOG OUT',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
@@ -90,7 +96,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.red,
+                  backgroundColor: Colors.red.shade50,
                   padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
                 onPressed: () => _showDeleteAccountConfirmation(context),
                 child: const Text('DELETE ACCOUNT'),
@@ -120,14 +130,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSettingItem(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.grey),
-          const SizedBox(width: 20),
-          Text(title, style: const TextStyle(fontSize: 16)),
-          const Spacer(),
-          const Icon(Icons.chevron_right, color: Colors.grey),
-        ],
+      child: InkWell(
+        onTap: () {
+          if (title == 'Manage Profile') {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileEditPage(),
+                ));
+          }
+          if (title == 'Privacy & Policy') {
+            Navigator.pushNamed(context, '/privacy');
+          }
+        },
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.grey),
+            const SizedBox(width: 20),
+            Text(title, style: const TextStyle(fontSize: 16)),
+            const Spacer(),
+            const Icon(Icons.chevron_right, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
