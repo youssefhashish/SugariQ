@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sugar_iq/screens/login.dart';
@@ -23,52 +24,57 @@ class _OnBoardingState extends State<OnBoarding> {
     return Scaffold(
       bottomSheet: Container(
         color: isLastPage ? AppTheme.primary : Colors.white,
-        height: 100,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        height: 100.h,
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
         child: isLastPage
             ? getStarted()
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(children: [
-                    SmoothPageIndicator(
-                      controller: pageController,
-                      count: controller.items.length,
-                      onDotClicked: (index) => pageController.animateToPage(
+                  Column(
+                    children: [
+                      SmoothPageIndicator(
+                        controller: pageController,
+                        count: controller.items.length,
+                        onDotClicked: (index) => pageController.animateToPage(
                           index,
                           duration: const Duration(milliseconds: 600),
-                          curve: Curves.easeIn),
-                      effect: const WormEffect(
-                        dotHeight: 12,
-                        dotWidth: 12,
-                        activeDotColor: Colors.black,
+                          curve: Curves.easeIn,
+                        ),
+                        effect: WormEffect(
+                          dotHeight: 12.h,
+                          dotWidth: 12.w,
+                          activeDotColor: Colors.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextButton(
+                      SizedBox(height: 10.h),
+                      TextButton(
                         onPressed: () => pageController
                             .jumpToPage(controller.items.length - 1),
-                        child: const Text(
+                        child: Text(
                           "Skip",
-                          style: TextStyle(color: Colors.black, fontSize: 17),
-                        )),
-                  ]),
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 17.sp),
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                       color: AppTheme.buttonColor,
                     ),
-                    width: MediaQuery.of(context).size.width * .3,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     child: TextButton(
-                        onPressed: () => pageController.nextPage(
-                            duration: const Duration(milliseconds: 600),
-                            curve: Curves.easeIn),
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white, fontSize: 17),
-                        )),
+                      onPressed: () => pageController.nextPage(
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeIn,
+                      ),
+                      child: Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white, fontSize: 17.sp),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -85,8 +91,8 @@ class _OnBoardingState extends State<OnBoarding> {
                 children: [
                   Image.asset(
                     controller.items[index].image,
-                    height: 660,
-                    width: 400,
+                    height: 660.h,
+                    width: 400.w,
                     fit: BoxFit.cover,
                     alignment: controller.items[index].alignment,
                   ),
@@ -98,13 +104,12 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   // one time onboarding
-
   Widget getStarted() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+      padding: EdgeInsets.only(bottom: 20.h),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
           color: Colors.white,
         ),
         width: MediaQuery.of(context).size.width * .7,
@@ -119,11 +124,11 @@ class _OnBoardingState extends State<OnBoarding> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => LogInScreen()));
           },
-          child: const Text(
+          child: Text(
             "Get started",
             style: TextStyle(
                 color: AppTheme.primary,
-                fontSize: 22,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold),
           ),
         ),

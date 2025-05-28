@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/splash/add_reminder.dart';
@@ -29,14 +30,18 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool("Login") ?? false;
   await dotenv.load(fileName: ".env");
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MedicationProvider()),
-      ],
-      child: DiabetesPredictionApp(isLoggedIn: isLoggedIn),
-    ),
-  );
+  runApp(ScreenUtilInit(
+      designSize: Size(392.72727272727275, 856.7272727272727),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => MedicationProvider()),
+          ],
+          child: DiabetesPredictionApp(isLoggedIn: isLoggedIn),
+        );
+      }));
 }
 
 final profileImageNotifier = ProfileImageNotifier(UserData.getUser().image);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sugar_iq/widgets/app_theme.dart';
 import '../screens/meal.dart';
 
 class AddMealScreen extends StatefulWidget {
@@ -37,7 +38,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Meal Manually"),
+        backgroundColor: AppTheme.primary,
+        title: const Text("Add Meal Manually",
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
       ),
       body: Padding(
@@ -68,8 +75,15 @@ class _AddMealScreenState extends State<AddMealScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.buttonColor,
+                ),
                 onPressed: _submit,
-                child: const Text("Add Meal"),
+                child: const Text("Add Meal",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white)),
               )
             ],
           ),

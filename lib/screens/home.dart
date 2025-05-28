@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sugar_iq/screens/saved_meals.dart';
 import 'package:sugar_iq/widgets/chatbot_FAB.dart';
@@ -44,23 +45,23 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Menu',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.black54),
+                    icon: Icon(Icons.close, color: Colors.black54, size: 24.sp),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -85,15 +86,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }),
-            const Divider(),
+            Divider(),
             _buildDrawerItem(Icons.settings_outlined, 'SETTINGS', () {
               Navigator.pushNamed(context, '/settings');
             }),
             _buildDrawerItem(Icons.headset_mic_outlined, 'HELP & CENTER', () {
-              // TODO: Navigate to Help & Center screen
+              _showHelpDialog();
             }),
             _buildDrawerItem(Icons.info_outline, 'ABOUT', () {
-              // TODO: Navigate to About screen
+              _showAboutDialog();
             }),
           ],
         ),
@@ -102,25 +103,32 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: true,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
           'Hi, Youssef',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 22,
+            fontSize: 22.sp,
             fontFamily: 'Convergence',
           ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0),
+            padding: EdgeInsets.only(left: 16.w),
             child: ValueListenableBuilder<String?>(
               valueListenable: profileImageNotifier,
               builder: (context, imagePath, _) {
+                ImageProvider imageProvider;
+                if (imagePath == null ||
+                    imagePath.isEmpty ||
+                    !(File(imagePath).existsSync())) {
+                  imageProvider = AssetImage('assets/logo.png');
+                } else {
+                  imageProvider = FileImage(File(imagePath));
+                }
                 return CircleAvatar(
-                  backgroundImage: (imagePath != null && imagePath.isNotEmpty)
-                      ? FileImage(File(imagePath))
-                      : AssetImage('assets/logo.png') as ImageProvider,
+                  radius: 18.r,
+                  backgroundImage: imageProvider,
                 );
               },
             ),
@@ -133,24 +141,24 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14.h),
                       InfoCard(key: ValueKey(_infoCardRefreshKey)),
-                      const SizedBox(height: 30),
-                      const Text(
+                      SizedBox(height: 30.h),
+                      Text(
                         'Medicines 💊',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontFamily: 'Convergence',
                         ),
                       ),
-                      const SizedBox(height: 23),
+                      SizedBox(height: 23.h),
                       ...meds.map(
                         (med) => Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
+                          padding: EdgeInsets.only(bottom: 20.h),
                           child: MedicineCard(
                             image: '',
                             title: med.name,
@@ -175,10 +183,86 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: Colors.black54),
-      title: Text(title,
-          style: const TextStyle(color: Colors.black87, fontSize: 16)),
+      leading: Icon(icon, color: Colors.black54, size: 22.sp),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.black87, fontSize: 16.sp),
+      ),
       onTap: onTap,
+    );
+  }
+
+  void _showHelpDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('Help & Center', style: TextStyle(fontSize: 18.sp)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.email, color: Colors.blue, size: 22.sp),
+              title: Text('support@sugariq.com',
+                  style: TextStyle(fontSize: 14.sp)),
+            ),
+            SizedBox(height: 8.h),
+            ListTile(
+              leading: Icon(Icons.phone, color: Colors.green, size: 22.sp),
+              title:
+                  Text('+20 120 298 5507', style: TextStyle(fontSize: 14.sp)),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close',
+                style: TextStyle(color: Colors.black, fontSize: 14.sp)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAboutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('About SugarIQ', style: TextStyle(fontSize: 18.sp)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'SugarIQ is your smart diabetes companion.',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.sp,
+                color: Color(0xFF1978B4),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Text('• Track your glucose, meals, and medications easily.',
+                style: TextStyle(fontSize: 14.sp)),
+            SizedBox(height: 6.h),
+            Text('• Get personalized reminders and reports.',
+                style: TextStyle(fontSize: 14.sp)),
+            SizedBox(height: 6.h),
+            Text(
+                '• Designed to help you manage your health and live better every day.',
+                style: TextStyle(fontSize: 14.sp)),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close',
+                style: TextStyle(color: Colors.black, fontSize: 14.sp)),
+          ),
+        ],
+      ),
     );
   }
 }

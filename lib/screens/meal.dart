@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
 import '../mealservices/add_meal.dart';
@@ -40,7 +41,7 @@ class Meal {
 class MealsPage extends StatefulWidget {
   final VoidCallback? onMealAdded;
 
-  const MealsPage({super.key, this.onMealAdded});
+  const MealsPage({Key? key, this.onMealAdded}) : super(key: key);
   @override
   State<MealsPage> createState() => _MealsPageState();
 }
@@ -74,20 +75,6 @@ class _MealsPageState extends State<MealsPage> {
     await prefs.setStringList('meals', mealsJson);
   }
 
-  /*void _addMeal(Meal meal) {
-    final mealWithTime = Meal(
-      name: meal.name,
-      imageUrl: meal.imageUrl,
-      calories: meal.calories,
-      glucoseLevel: meal.glucoseLevel,
-      dateTime: DateTime.now(),
-    );
-
-    setState(() {
-      addedMeals.add(mealWithTime);
-    });
-    _saveMeals();
-  }*/
   void _addMeal(Meal meal) {
     final mealWithTime = Meal(
       name: meal.name,
@@ -131,10 +118,11 @@ class _MealsPageState extends State<MealsPage> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => AddMealScreen(
-                      onMealAdded: _addMeal,
-                    ),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        AddMealScreen(onMealAdded: _addMeal),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
                   ),
                 );
               },
@@ -155,17 +143,17 @@ class _MealsPageState extends State<MealsPage> {
         ),
         builder: (context) {
           return ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             children: meals.map((meal) {
               return Card(
-                margin: const EdgeInsets.only(bottom: 12),
+                margin: EdgeInsets.only(bottom: 12.h),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12.r)),
                 child: ListTile(
                   leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                     child: Image.network(meal.image,
-                        width: 60, height: 60, fit: BoxFit.cover),
+                        width: 60.w, height: 60.h, fit: BoxFit.cover),
                   ),
                   title: Text(meal.title),
                   subtitle:
@@ -189,7 +177,8 @@ class _MealsPageState extends State<MealsPage> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to laod meals, please try again later')),
+        const SnackBar(
+            content: Text('Failed to load meals, please try again later')),
       );
     }
   }
@@ -201,69 +190,74 @@ class _MealsPageState extends State<MealsPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('Meals 🍽️', style: TextStyle(color: Colors.black)),
+        title: Text('Meals 🍽️',
+            style: TextStyle(color: Colors.black, fontSize: 20.sp)),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: addedMeals.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
                 'No meals added yet',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: TextStyle(fontSize: 18.sp, color: Colors.grey),
               ),
             )
           : ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               itemCount: addedMeals.length,
               itemBuilder: (context, index) {
                 final meal = addedMeals[index];
                 return Card(
-                  margin: const EdgeInsets.only(bottom: 16),
+                  margin: EdgeInsets.only(bottom: 16.h),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12.r)),
                   elevation: 3,
                   child: Row(
                     children: [
                       ClipRRect(
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(12)),
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(12.r),
+                        ),
+                        child: Container(
+                          width: 100.w,
+                          height: 100.h,
                           child: meal.imageUrl.startsWith('assets/')
                               ? Image.asset(
                                   meal.imageUrl,
-                                  width: 100,
-                                  height: 100,
                                   fit: BoxFit.cover,
                                 )
                               : Image.network(
                                   meal.imageUrl,
-                                  width: 100,
-                                  height: 100,
                                   fit: BoxFit.cover,
-                                )),
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.image_not_supported),
+                                ),
+                        ),
+                      ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12.w),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(meal.name,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16)),
-                              const SizedBox(height: 4),
+                                      fontSize: 16.sp)),
+                              SizedBox(height: 4.h),
                               Row(
                                 children: [
                                   const Icon(Icons.local_fire_department,
                                       size: 16, color: Colors.red),
-                                  const SizedBox(width: 2),
+                                  SizedBox(width: 2.w),
                                   Text('${meal.calories} kcal',
-                                      style: const TextStyle(fontSize: 12)),
-                                  const SizedBox(width: 12),
+                                      style: TextStyle(fontSize: 12.sp)),
+                                  SizedBox(width: 12.w),
                                   const Icon(Icons.monitor_heart,
                                       size: 16, color: Colors.purple),
-                                  const SizedBox(width: 2),
+                                  SizedBox(width: 2.w),
                                   Text('Glucose: ${meal.glucoseLevel} mg/dL',
-                                      style: const TextStyle(fontSize: 12)),
+                                      style: TextStyle(fontSize: 12.sp)),
                                 ],
                               ),
                             ],
@@ -287,7 +281,7 @@ class _MealsPageState extends State<MealsPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
         onPressed: _showMealPicker,
-        child: Icon(Icons.add, size: 30, color: Colors.black),
+        child: Icon(Icons.add, size: 30.sp, color: Colors.black),
       ),
     );
   }

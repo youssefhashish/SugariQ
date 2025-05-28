@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sugar_iq/screens/meal.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
@@ -57,26 +58,56 @@ class _SavedMealsPageState extends State<SavedMealsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Saved Meals'),
+        title: Text('Saved Meals', style: TextStyle(fontSize: 18.sp)),
         backgroundColor: AppTheme.primary,
       ),
-      body: ListView.builder(
-        itemCount: meals.length,
-        itemBuilder: (context, index) {
-          final meal = meals[index];
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(meal.imageUrl),
+      body: meals.isEmpty
+          ? Center(
+              child: Text(
+                'No meals saved.',
+                style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+              ),
+            )
+          : ListView.builder(
+              itemCount: meals.length,
+              itemBuilder: (context, index) {
+                final meal = meals[index];
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                      leading: CircleAvatar(
+                        radius: 24.r,
+                        backgroundImage: NetworkImage(meal.imageUrl),
+                      ),
+                      title: Text(
+                        meal.name,
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.w600),
+                      ),
+                      subtitle: Text(
+                        'Glucose: ${meal.glucoseLevel} mg/dL',
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      trailing: Checkbox(
+                        value: eatenIndexes.contains(index),
+                        onChanged: (_) => _toggleEaten(index),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-            title: Text(meal.name),
-            subtitle: Text('Glucose: ${meal.glucoseLevel} mg/dL'),
-            trailing: Checkbox(
-              value: eatenIndexes.contains(index),
-              onChanged: (_) => _toggleEaten(index),
-            ),
-          );
-        },
-      ),
     );
   }
 }

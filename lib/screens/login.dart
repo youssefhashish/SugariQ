@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
 import '../../validator.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -63,41 +63,42 @@ class _LogInScreenState extends State<LogInScreen> {
               ListView(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: EdgeInsets.only(top: 20.h),
                     child: Image.asset(
                       "assets/login_logo.png",
-                      height: 400,
+                      height: 400.h,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5.0, left: 40.0, right: 40.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40.w, vertical: 5.h),
                     child: usernameField,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5.0, left: 40.0, right: 40.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40.w, vertical: 5.h),
                     child: passwordField,
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(left: 200.0),
-                      child: CustomFlatButton(
-                        title: "Forget password?",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        textColor: Colors.black,
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/forgotPassword');
-                        },
-                        splashColor: Colors.black12,
-                        color: Colors.transparent,
-                      )),
+                    padding: EdgeInsets.only(left: 200.w),
+                    child: CustomFlatButton(
+                      title: "Forget password?",
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      textColor: Colors.black,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgotPassword');
+                      },
+                      splashColor: Colors.black12,
+                      color: Colors.transparent,
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 50.0, left: 40.0, right: 40.0),
+                    padding:
+                        EdgeInsets.only(top: 50.h, left: 40.w, right: 40.w),
                     child: CustomFlatButton(
                       title: "Login",
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w700,
                       textColor: Colors.white,
                       onPressed: () {
@@ -112,18 +113,19 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(left: 80.0, right: 80.0),
-                      child: CustomFlatButton(
-                        title: "Don’t have an account?",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        textColor: AppTheme.primaryBlue,
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("/signup");
-                        },
-                        splashColor: Colors.black12,
-                        color: Colors.transparent,
-                      ))
+                    padding: EdgeInsets.symmetric(horizontal: 80.w),
+                    child: CustomFlatButton(
+                      title: "Don’t have an account?",
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      textColor: AppTheme.primaryBlue,
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/signup");
+                      },
+                      splashColor: Colors.black12,
+                      color: Colors.transparent,
+                    ),
+                  ),
                 ],
               )
             ],

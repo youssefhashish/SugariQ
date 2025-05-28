@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // <- مهم
 import '../widgets/weekly_report.dart';
 
 class MyReportPage extends StatefulWidget {
@@ -96,21 +97,25 @@ class _MyReportPageState extends State<MyReportPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Add Glucose Measurement"),
+        title:
+            Text("Add Glucose Measurement", style: TextStyle(fontSize: 18.sp)),
         content: TextField(
           controller: _glucoseController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: 'Glucose level (mg/dl)',
             border: OutlineInputBorder(),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
           ),
+          style: TextStyle(fontSize: 16.sp),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Cancel",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 16.sp),
             ),
           ),
           ElevatedButton(
@@ -129,7 +134,7 @@ class _MyReportPageState extends State<MyReportPage> {
               },
               child: Text(
                 "Save",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 16.sp),
               )),
         ],
       ),
@@ -142,29 +147,29 @@ class _MyReportPageState extends State<MyReportPage> {
       builder: (context) {
         return Dialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text("You Report🩺",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 12),
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 12.h),
                   WeeklyMedicalReport(measurements: measurements),
-                  SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(216, 39, 148, 148),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text("Close",
-                        style: TextStyle(fontSize: 18, color: Colors.white)),
+                        style: TextStyle(fontSize: 18.sp, color: Colors.white)),
                   ),
                 ],
               ),
@@ -186,16 +191,16 @@ class _MyReportPageState extends State<MyReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
-        title: Text("My Report"),
+        toolbarHeight: 80.h,
+        title: Text("My Report", style: TextStyle(fontSize: 22.sp)),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios, size: 24.sp),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.event_note),
+            icon: Icon(Icons.event_note, size: 26.sp),
             onPressed: () {
               _showWeeklyReportDialog();
             },
@@ -204,19 +209,19 @@ class _MyReportPageState extends State<MyReportPage> {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20.r),
+            bottomRight: Radius.circular(20.r),
           ),
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("$selectedFilter Report",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+            SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -234,58 +239,60 @@ class _MyReportPageState extends State<MyReportPage> {
                     onTap: () => onFilterChange('MONTHLY')),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Card(
-              margin: EdgeInsets.all(5),
+              margin: EdgeInsets.all(5.w),
               elevation: 4.0,
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                   Text("AVG BLOOD GLUCOSE",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                           wordSpacing: 2)),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (avgGlucose == 0) ...[
                         Text('No measurements added yet',
-                            style: TextStyle(fontSize: 18, color: Colors.grey)),
-                      ] else if (avgGlucose > 100) ...[
-                        Text('👍', style: TextStyle(fontSize: 23)),
-                        SizedBox(width: 8),
-                        Text('${avgGlucose.toStringAsFixed(1)} mg/dl',
                             style:
-                                TextStyle(fontSize: 23, color: Colors.green)),
+                                TextStyle(fontSize: 18.sp, color: Colors.grey)),
+                      ] else if (avgGlucose > 100) ...[
+                        Text('👍', style: TextStyle(fontSize: 23.sp)),
+                        SizedBox(width: 8.w),
+                        Text('${avgGlucose.toStringAsFixed(1)} mg/dl',
+                            style: TextStyle(
+                                fontSize: 23.sp, color: Colors.green)),
                       ] else ...[
                         Column(children: [
                           Text('👎 ${avgGlucose.toStringAsFixed(1)} mg/dl',
-                              style:
-                                  TextStyle(fontSize: 23, color: Colors.red)),
+                              style: TextStyle(
+                                  fontSize: 23.sp, color: Colors.red)),
                           Text('you need to visit doctor',
-                              style: TextStyle(fontSize: 20, color: Colors.red))
+                              style:
+                                  TextStyle(fontSize: 20.sp, color: Colors.red))
                         ]),
                       ],
                     ],
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             _buildGlucoseChart(),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Center(
               child: FloatingActionButton(
                 onPressed: _showAddMeasurementDialog,
                 backgroundColor: const Color.fromARGB(216, 39, 148, 148),
-                child: Icon(Icons.add, color: Colors.white, size: 25),
+                child: Icon(Icons.add, color: Colors.white, size: 25.sp),
               ),
             ),
           ],
@@ -295,157 +302,166 @@ class _MyReportPageState extends State<MyReportPage> {
   }
 
   Widget _buildGlucoseChart() {
-    final now = DateTime.now();
-    List<GlucoseMeasurement> filteredMeasurements = [];
-    bool isDaily = selectedFilter == 'TODAY';
+    if (measurements.isEmpty) {
+      return Center(
+        child: Text(
+          "No measurements to show",
+          style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+        ),
+      );
+    }
+
+    List<FlSpot> spots = [];
+    List<String> labels = [];
 
     if (selectedFilter == 'TODAY') {
-      filteredMeasurements = measurements
+      final today = DateTime.now();
+      final todayMeasurements = measurements
           .where((m) =>
-              m.dateTime.year == now.year &&
-              m.dateTime.month == now.month &&
-              m.dateTime.day == now.day)
+              m.dateTime.year == today.year &&
+              m.dateTime.month == today.month &&
+              m.dateTime.day == today.day)
           .toList();
+
+      for (var i = 0; i < todayMeasurements.length; i++) {
+        spots.add(FlSpot(i.toDouble(), todayMeasurements[i].value));
+        labels.add(DateFormat.Hm().format(todayMeasurements[i].dateTime));
+      }
     } else if (selectedFilter == 'WEEKLY') {
-      final weekAgo = now.subtract(Duration(days: 7));
-      filteredMeasurements =
-          measurements.where((m) => m.dateTime.isAfter(weekAgo)).toList();
+      DateTime now = DateTime.now();
+      DateTime weekAgo = now.subtract(Duration(days: 6));
+
+      // مجموعة قياسات الأيام السبعة الأخيرة
+      List<double> dailyAverages = List.filled(7, 0);
+      List<int> dailyCounts = List.filled(7, 0);
+
+      for (var m in measurements) {
+        if (!m.dateTime.isBefore(weekAgo)) {
+          int diff = m.dateTime.difference(weekAgo).inDays;
+          dailyAverages[diff] += m.value;
+          dailyCounts[diff]++;
+        }
+      }
+
+      for (int i = 0; i < 7; i++) {
+        if (dailyCounts[i] > 0) {
+          dailyAverages[i] /= dailyCounts[i];
+        }
+        spots.add(FlSpot(i.toDouble(), dailyAverages[i]));
+        labels.add(days[i]);
+      }
     } else {
-      final monthAgo = now.subtract(Duration(days: 30));
-      filteredMeasurements =
-          measurements.where((m) => m.dateTime.isAfter(monthAgo)).toList();
+      // Monthly - average by week or days (simplify: average by week number)
+      DateTime now = DateTime.now();
+      DateTime monthAgo = now.subtract(Duration(days: 29));
+
+      List<double> weeklyAverages = List.filled(5, 0);
+      List<int> weeklyCounts = List.filled(5, 0);
+
+      for (var m in measurements) {
+        if (!m.dateTime.isBefore(monthAgo)) {
+          int weekNum = ((m.dateTime.difference(monthAgo).inDays) / 7).floor();
+          if (weekNum >= 0 && weekNum < 5) {
+            weeklyAverages[weekNum] += m.value;
+            weeklyCounts[weekNum]++;
+          }
+        }
+      }
+
+      for (int i = 0; i < 5; i++) {
+        if (weeklyCounts[i] > 0) {
+          weeklyAverages[i] /= weeklyCounts[i];
+        }
+        spots.add(FlSpot(i.toDouble(), weeklyAverages[i]));
+        labels.add('W${i + 1}');
+      }
     }
 
-    if (filteredMeasurements.isEmpty) {
-      return Center(child: Text("No measurements available"));
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("GLUCOSE, $selectedFilter AVG",
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
-        SizedBox(
-          height: 200,
-          child: isDaily
-              ? _buildLineChart(filteredMeasurements)
-              : _buildBarChart(filteredMeasurements),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLineChart(List<GlucoseMeasurement> measurements) {
-    // Sort by time
-    measurements.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-
-    return LineChart(
-      LineChartData(
-        lineBarsData: [
-          LineChartBarData(
-            spots: measurements.map((m) {
-              return FlSpot(
-                m.dateTime.hour + m.dateTime.minute / 60.0,
-                m.value,
-              );
-            }).toList(),
-            isCurved: true,
-            color: Colors.blue,
-            barWidth: 3,
-            belowBarData: BarAreaData(show: false),
-            dotData: FlDotData(show: true),
-          ),
-        ],
-        titlesData: FlTitlesData(
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text('${value.toInt()}:00');
-              },
-              interval: 4,
+    return SizedBox(
+      height: 220.h,
+      child: LineChart(
+        LineChartData(
+          gridData: FlGridData(show: true),
+          titlesData: FlTitlesData(
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 35.h,
+                interval: 1,
+                getTitlesWidget: (value, meta) {
+                  int index = value.toInt();
+                  if (index < 0 || index >= labels.length) return Container();
+                  return SideTitleWidget(
+                    meta: meta,
+                    child: Text(
+                      labels[index],
+                      style: TextStyle(fontSize: 12.sp),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text(value.toInt().toString());
-              },
-              interval: 20,
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 40.w,
+                  interval: 20,
+                  getTitlesWidget: (value, meta) {
+                    return Text(value.toInt().toString(),
+                        style: TextStyle(fontSize: 12.sp));
+                  }),
             ),
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
+          borderData: FlBorderData(show: true),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              barWidth: 3,
+              dotData: FlDotData(show: true),
+              belowBarData:
+                  BarAreaData(show: true, color: Colors.blue.withOpacity(0.2)),
+              color: Colors.blue,
+            ),
+          ],
+          minY: 0,
         ),
-        borderData: FlBorderData(show: true),
-        gridData: FlGridData(show: true),
-        minX: 0,
-        maxX: 24,
       ),
     );
   }
+}
 
-  Widget _buildBarChart(List<GlucoseMeasurement> measurements) {
-    Map<String, List<double>> groupedData = {};
-    final dateFormat =
-        selectedFilter == 'WEEKLY' ? DateFormat('E') : DateFormat('d');
+class FilterButton extends StatelessWidget {
+  final String text;
+  final bool isSelected;
+  final VoidCallback onTap;
 
-    for (var m in measurements) {
-      final key = dateFormat.format(m.dateTime);
-      groupedData.putIfAbsent(key, () => []).add(m.value);
-    }
+  const FilterButton(
+      {required this.text,
+      required this.isSelected,
+      required this.onTap,
+      super.key});
 
-    final List<MapEntry<String, double>> averagedData = groupedData.entries
-        .map((e) =>
-            MapEntry(e.key, e.value.reduce((a, b) => a + b) / e.value.length))
-        .toList();
-
-    return BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.spaceAround,
-        maxY:
-            (averagedData.fold(0.0, (max, e) => e.value > max ? e.value : max) +
-                20),
-        barTouchData: BarTouchData(enabled: false),
-        titlesData: FlTitlesData(
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                if (value >= 0 && value < averagedData.length) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: Text(averagedData[value.toInt()].key),
-                  );
-                }
-                return SizedBox();
-              },
-            ),
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text(value.toInt().toString());
-              },
-              interval: 20,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.black : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 14.sp,
           ),
         ),
-        borderData: FlBorderData(show: true),
-        barGroups: averagedData.asMap().entries.map((e) {
-          return BarChartGroupData(
-            x: e.key,
-            barRods: [
-              BarChartRodData(
-                toY: e.value.value,
-                color: Colors.blue,
-                width: 16,
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ],
-          );
-        }).toList(),
       ),
     );
   }
@@ -469,34 +485,5 @@ class GlucoseMeasurement {
       'value': value,
       'dateTime': dateTime.toIso8601String(),
     };
-  }
-}
-
-class FilterButton extends StatelessWidget {
-  final String text;
-  final bool isSelected;
-  final VoidCallback? onTap;
-
-  const FilterButton({required this.text, this.isSelected = false, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.black : Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
 import '../../validator.dart';
 import '../widgets/custom_text_filed.dart';
@@ -142,69 +143,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
         value: SystemUiOverlayStyle.dark,
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
             child: Form(
               key: _formKey,
               child: Container(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.08),
-                      blurRadius: 16,
-                      offset: const Offset(0, 4),
+                      blurRadius: 16.r,
+                      offset: Offset(0, 4.h),
                     ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "Register for an Account",
                       style: TextStyle(
-                        fontSize: 26.0,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.bold,
                         fontFamily: "OpenSans-Bold",
                         color: Color(0xFF222B45),
                       ),
                     ),
-                    const SizedBox(height: 8.0),
-                    const Text(
+                    SizedBox(height: 8.h),
+                    Text(
                       "Welcome!",
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF5FB794),
                       ),
                     ),
-                    const SizedBox(height: 6.0),
-                    const Text(
+                    SizedBox(height: 6.h),
+                    Text(
                       "We just need a few details to get you signed up.",
-                      style: TextStyle(fontSize: 16.0, color: Colors.black54),
+                      style: TextStyle(fontSize: 16.sp, color: Colors.black54),
                     ),
-                    const SizedBox(height: 24.0),
+                    SizedBox(height: 24.h),
                     firstnameField,
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     lastnameField,
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     emailField,
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     phonenumberField,
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     passwordField,
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     reenterpasswordField,
-                    const SizedBox(height: 30.0),
+                    SizedBox(height: 30.h),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
                           elevation: 2,
                         ),
@@ -214,12 +215,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Navigator.pushNamed(context, '/prediction');
                           }
                         },
-                        child: const Text(
+                        child: Text(
                           "Sign Up",
                           style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

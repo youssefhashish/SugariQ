@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sugar_iq/profile%20page/profile_edit.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
 
@@ -16,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text('Settings', style: TextStyle(fontSize: 18.sp)),
         backgroundColor: Colors.white,
       ),
       body: Column(
@@ -25,12 +26,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildSettingItem('Manage Profile', Icons.person),
           _buildDivider(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
             child: Row(
               children: [
-                const Icon(Icons.notifications, color: Colors.grey),
-                const SizedBox(width: 20),
-                const Text('Notification', style: TextStyle(fontSize: 16)),
+                Icon(Icons.notifications, color: Colors.grey, size: 24.sp),
+                SizedBox(width: 20.w),
+                Text('Notification', style: TextStyle(fontSize: 16.sp)),
                 const Spacer(),
                 Switch(
                   value: isNotificationOn,
@@ -44,66 +45,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           ),
-          // About Section
           _buildSectionTitle('About'),
           _buildSettingItem('Rate Us', Icons.star_outline),
           _buildDivider(),
           _buildSettingItem('Privacy & Policy', Icons.privacy_tip_outlined),
           _buildDivider(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
             child: Row(
               children: [
-                const Icon(Icons.info_outline, color: Colors.grey),
-                const SizedBox(width: 20),
-                const Text('Version', style: TextStyle(fontSize: 16)),
+                Icon(Icons.info_outline, color: Colors.grey, size: 24.sp),
+                SizedBox(width: 20.w),
+                Text('Version', style: TextStyle(fontSize: 16.sp)),
                 const Spacer(),
-                Text(
-                  '1.0.0',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 16),
-                ),
+                Text('1.0.0',
+                    style: TextStyle(color: Colors.grey[600], fontSize: 16.sp)),
               ],
             ),
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey.shade300,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
                 onPressed: () => _showLogoutConfirmation(context),
-                child: const Text(
+                child: Text(
                   'LOG OUT',
                   style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 17.sp,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
             child: SizedBox(
               width: double.infinity,
               child: TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.red,
                   backgroundColor: Colors.red.shade50,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
                 onPressed: () => _showDeleteAccountConfirmation(context),
-                child: const Text('DELETE ACCOUNT'),
+                child:
+                    Text('DELETE ACCOUNT', style: TextStyle(fontSize: 16.sp)),
               ),
             ),
           ),
@@ -115,12 +115,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSectionTitle(String title) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 10.h),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.grey,
-          fontSize: 14,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -129,15 +129,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSettingItem(String title, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: InkWell(
         onTap: () {
           if (title == 'Manage Profile') {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileEditPage(),
-                ));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileEditPage()));
           }
           if (title == 'Privacy & Policy') {
             Navigator.pushNamed(context, '/privacy');
@@ -145,11 +142,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
         child: Row(
           children: [
-            Icon(icon, color: Colors.grey),
-            const SizedBox(width: 20),
-            Text(title, style: const TextStyle(fontSize: 16)),
+            Icon(icon, color: Colors.grey, size: 24.sp),
+            SizedBox(width: 20.w),
+            Text(title, style: TextStyle(fontSize: 16.sp)),
             const Spacer(),
-            const Icon(Icons.chevron_right, color: Colors.grey),
+            Icon(Icons.chevron_right, color: Colors.grey, size: 22.sp),
           ],
         ),
       ),
@@ -157,12 +154,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildDivider() {
-    return const Divider(
-      height: 1,
-      thickness: 1,
-      indent: 20,
-      endIndent: 20,
-      color: Color(0xFFEEEEEE),
+    return Divider(
+      height: 1.h,
+      thickness: 1.h,
+      indent: 20.w,
+      endIndent: 20.w,
+      color: const Color(0xFFEEEEEE),
     );
   }
 
@@ -170,12 +167,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Log Out'),
-        content: const Text('Are you sure you want to log out?'),
+        title: Text('Log Out', style: TextStyle(fontSize: 18.sp)),
+        content: Text('Are you sure you want to log out?',
+            style: TextStyle(fontSize: 16.sp)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(fontSize: 16.sp)),
           ),
           TextButton(
             onPressed: () {
@@ -185,7 +183,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SnackBar(content: Text('Logged out successfully')),
               );
             },
-            child: const Text('Log Out', style: TextStyle(color: Colors.red)),
+            child: Text('Log Out',
+                style: TextStyle(color: Colors.red, fontSize: 16.sp)),
           ),
         ],
       ),
@@ -196,14 +195,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Account'),
-        content: const Text(
+        title: Text('Delete Account', style: TextStyle(fontSize: 18.sp)),
+        content: Text(
           'This will permanently delete your account and all associated data.',
+          style: TextStyle(fontSize: 16.sp),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(fontSize: 16.sp)),
           ),
           TextButton(
             onPressed: () {
@@ -212,7 +212,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SnackBar(content: Text('Account deleted successfully')),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text('Delete',
+                style: TextStyle(color: Colors.red, fontSize: 16.sp)),
           ),
         ],
       ),
