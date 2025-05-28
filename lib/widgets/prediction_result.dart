@@ -7,8 +7,16 @@ class PredictionResult {
     final image = isDiabetic
         ? Image.asset(
             'assets/Is_Diabetic.png',
+            width: 500,
+            height: 300,
+            fit: BoxFit.contain,
           )
-        : Image.asset('assets/Not_Diabetic.png');
+        : Image.asset(
+            'assets/Not_Diabetic.png',
+            width: 500,
+            height: 300,
+            fit: BoxFit.contain,
+          );
     final message = isDiabetic
         ? "Unfortunately, you have a ${percent.toStringAsFixed(0)}% chance of having diabetes.\nStay strong! ❤️"
         : "Your chance of having diabetes is only ${percent.toStringAsFixed(0)}% 🎉";
@@ -25,44 +33,38 @@ class PredictionResult {
           backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              image,
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 12),
-              /*Text(
-                details,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),*/
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.buttonColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                image,
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                onPressed: () =>
-                    Navigator.popAndPushNamed(context, '/goalScreen'),
-                child: const Text('OK',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-            ],
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.buttonColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () =>
+                      Navigator.popAndPushNamed(context, '/goalScreen'),
+                  child: const Text('OK',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ],
+            ),
           ),
         );
       },

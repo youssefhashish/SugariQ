@@ -85,7 +85,9 @@ class _SavedMealsPageState extends State<SavedMealsPage> {
                           EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                       leading: CircleAvatar(
                         radius: 24.r,
-                        backgroundImage: NetworkImage(meal.imageUrl),
+                        backgroundImage: meal.imageUrl.startsWith('assets/')
+                            ? AssetImage(meal.imageUrl) as ImageProvider
+                            : NetworkImage(meal.imageUrl),
                       ),
                       title: Text(
                         meal.name,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'user/user.dart';
 import 'user/user_data.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
@@ -50,9 +51,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Edit Profile',
-          style: TextStyle(color: AppTheme.primary),
+          style: TextStyle(color: AppTheme.primary, fontSize: 20.sp),
         ),
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -66,44 +67,56 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.w),
         child: ListView(
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                labelText: 'Name',
+                labelStyle: TextStyle(fontSize: 16.sp),
+              ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             TextField(
               controller: phoneController,
-              decoration: const InputDecoration(labelText: 'Phone'),
+              decoration: InputDecoration(
+                labelText: 'Phone',
+                labelStyle: TextStyle(fontSize: 16.sp),
+              ),
               keyboardType: TextInputType.phone,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyle(fontSize: 16.sp),
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             TextField(
               controller: descController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: InputDecoration(
+                labelText: 'Description',
+                labelStyle: TextStyle(fontSize: 16.sp),
+              ),
               maxLines: 3,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             ElevatedButton(
               onPressed: saveProfile,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: EdgeInsets.symmetric(vertical: 14.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Save',
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: TextStyle(fontSize: 18.sp, color: Colors.white),
               ),
             ),
           ],

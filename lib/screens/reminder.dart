@@ -8,6 +8,7 @@ import '../components/mdecine_provider.dart';
 import '../components/medication_model.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // تمت إضافتها
 
 class ReminderPage extends StatefulWidget {
   const ReminderPage({super.key});
@@ -189,120 +190,140 @@ class _ReminderPageState extends State<ReminderPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Reminder'),
+          title: Text('Add Reminder', style: TextStyle(fontSize: 18.sp)),
           content: StatefulBuilder(
             builder: (context, setModalState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DropdownButton<String>(
-                    value: selectedType,
-                    items: ['Glucose Check', 'Medication']
-                        .map((type) => DropdownMenuItem(
-                              value: type,
-                              child: Text(type),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) {
-                        setModalState(() {
-                          selectedType = value;
-                          if (value == 'Medication') {
-                            timesPerDay = 1;
-                            times = [TimeOfDay.now()];
-                          }
-                        });
-                      }
-                    },
-                  ),
-                  if (selectedType == 'Glucose Check')
-                    Column(
-                      children: [
-                        const SizedBox(height: 8),
-                        Text('Time: ${times[0].format(context)}'),
-                        TextButton(
-                          onPressed: () async {
-                            TimeOfDay? picked = await showTimePicker(
-                              context: context,
-                              initialTime: times[0],
-                            );
-                            if (picked != null) {
-                              setModalState(() => times[0] = picked);
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButton<String>(
+                      value: selectedType,
+                      items: ['Glucose Check', 'Medication']
+                          .map((type) => DropdownMenuItem(
+                                value: type,
+                                child: Text(type,
+                                    style: TextStyle(fontSize: 14.sp)),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setModalState(() {
+                            selectedType = value;
+                            if (value == 'Medication') {
+                              timesPerDay = 1;
+                              times = [TimeOfDay.now()];
                             }
-                          },
-                          child: const Text('Pick Time'),
-                        ),
-                      ],
-                    )
-                  else
-                    Form(
-                      key: _formKey,
-                      child: Column(
+                          });
+                        }
+                      },
+                    ),
+                    if (selectedType == 'Glucose Check')
+                      Column(
                         children: [
-                          TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: 'Medication Name'),
-                            validator: (value) => value == null || value.isEmpty
-                                ? 'Enter name'
-                                : null,
-                            onChanged: (value) => medName = value,
-                          ),
-                          const SizedBox(height: 10),
-                          DropdownButtonFormField<int>(
-                            value: timesPerDay,
-                            decoration: const InputDecoration(
-                                labelText: 'Times per day'),
-                            items: List.generate(6, (i) => i + 1)
-                                .map((num) => DropdownMenuItem(
-                                    value: num, child: Text('$num times')))
-                                .toList(),
-                            onChanged: (val) {
-                              if (val != null) {
-                                setModalState(() {
-                                  timesPerDay = val;
-                                  times = List.generate(
-                                      val, (i) => TimeOfDay.now());
-                                });
+                          SizedBox(height: 8.h),
+                          Text('Time: ${times[0].format(context)}',
+                              style: TextStyle(fontSize: 14.sp)),
+                          TextButton(
+                            onPressed: () async {
+                              TimeOfDay? picked = await showTimePicker(
+                                context: context,
+                                initialTime: times[0],
+                              );
+                              if (picked != null) {
+                                setModalState(() => times[0] = picked);
                               }
                             },
+                            child: Text('Pick Time',
+                                style: TextStyle(fontSize: 14.sp)),
                           ),
-                          const SizedBox(height: 10),
-                          ...List.generate(timesPerDay, (index) {
-                            return Row(
-                              children: [
-                                Text(
-                                    'Time ${index + 1}: ${times[index].format(context)}'),
-                                TextButton(
-                                  onPressed: () async {
-                                    TimeOfDay? picked = await showTimePicker(
-                                      context: context,
-                                      initialTime: times[index],
-                                    );
-                                    if (picked != null) {
-                                      setModalState(
-                                          () => times[index] = picked);
-                                    }
-                                  },
-                                  child: const Text('Pick Time'),
-                                ),
-                              ],
-                            );
-                          }),
                         ],
+                      )
+                    else
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: 'Medication Name',
+                                  labelStyle: TextStyle(fontSize: 14.sp)),
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Enter name'
+                                      : null,
+                              onChanged: (value) => medName = value,
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
+                            SizedBox(height: 10.h),
+                            DropdownButtonFormField<int>(
+                              value: timesPerDay,
+                              decoration: InputDecoration(
+                                  labelText: 'Times per day',
+                                  labelStyle: TextStyle(fontSize: 14.sp)),
+                              items: List.generate(6, (i) => i + 1)
+                                  .map((num) => DropdownMenuItem(
+                                      value: num,
+                                      child: Text('$num times',
+                                          style: TextStyle(fontSize: 14.sp))))
+                                  .toList(),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  setModalState(() {
+                                    timesPerDay = val;
+                                    times = List.generate(
+                                        val, (i) => TimeOfDay.now());
+                                  });
+                                }
+                              },
+                            ),
+                            SizedBox(height: 10.h),
+                            ...List.generate(timesPerDay, (index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 4.h),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Time ${index + 1}: ${times[index].format(context)}',
+                                        style: TextStyle(fontSize: 13.sp),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        TimeOfDay? picked =
+                                            await showTimePicker(
+                                          context: context,
+                                          initialTime: times[index],
+                                        );
+                                        if (picked != null) {
+                                          setModalState(
+                                              () => times[index] = picked);
+                                        }
+                                      },
+                                      child: Text('Pick Time',
+                                          style: TextStyle(fontSize: 13.sp)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               );
             },
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(fontSize: 14.sp)),
             ),
             ElevatedButton(
               onPressed: _submitReminder,
-              child: const Text('Save'),
+              child: Text('Save', style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         );
@@ -316,25 +337,26 @@ class _ReminderPageState extends State<ReminderPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reminders'),
+        title: Text('Reminders', style: TextStyle(fontSize: 20.sp)),
         centerTitle: true,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.w),
         children: [
-          const Text(
+          Text(
             'Glucose Check Reminders',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ...List.generate(reminders.length, (index) {
             final reminder = reminders[index];
             final time = reminder['time'] as TimeOfDay;
             final type = reminder['type'] as String;
             return ListTile(
               leading: const Icon(Icons.alarm),
-              title: Text(type),
-              subtitle: Text(time.format(context)),
+              title: Text(type, style: TextStyle(fontSize: 16.sp)),
+              subtitle:
+                  Text(time.format(context), style: TextStyle(fontSize: 14.sp)),
               trailing: IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () => _deleteReminder(index),
@@ -342,18 +364,18 @@ class _ReminderPageState extends State<ReminderPage> {
             );
           }),
           const Divider(),
-          const Text(
+          Text(
             'Medication Reminders',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ...List.generate(meds.length, (index) {
             final med = meds[index];
             return ListTile(
               leading: const Icon(Icons.medication_outlined),
-              title: Text(med.name),
-              subtitle:
-                  Text(med.times.map((t) => t.format(context)).join(', ')),
+              title: Text(med.name, style: TextStyle(fontSize: 16.sp)),
+              subtitle: Text(med.times.map((t) => t.format(context)).join(', '),
+                  style: TextStyle(fontSize: 14.sp)),
               trailing: IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () => _deleteMedication(index),

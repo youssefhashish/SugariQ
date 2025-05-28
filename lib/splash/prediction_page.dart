@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
 import 'diabetes_type.dart';
@@ -40,7 +41,6 @@ class _PredictionScreenState extends State<PredictionScreen> {
   void _calculateBMI() {
     final weight = double.tryParse(_weightController.text);
     final heightCm = double.tryParse(_heightController.text);
-
     if (weight != null && heightCm != null && heightCm > 0) {
       final heightM = heightCm / 100;
       setState(() {
@@ -52,10 +52,10 @@ class _PredictionScreenState extends State<PredictionScreen> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.r)),
       filled: true,
       fillColor: Colors.white,
-      labelStyle: const TextStyle(fontWeight: FontWeight.w500),
+      labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp),
     );
   }
 
@@ -70,6 +70,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
       decoration: _inputDecoration(label),
       keyboardType: keyboardType ?? TextInputType.text,
       onChanged: (val) => onChanged?.call(),
+      style: TextStyle(fontSize: 14.sp),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter $label';
@@ -89,8 +90,11 @@ class _PredictionScreenState extends State<PredictionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Diabetes Prediction',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text('Diabetes Prediction',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.sp)),
         backgroundColor: Colors.white,
         elevation: 1.5,
         centerTitle: true,
@@ -98,47 +102,48 @@ class _PredictionScreenState extends State<PredictionScreen> {
       ),
       backgroundColor: Colors.grey[100],
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               SizedBox(
                 width: double.infinity,
-                height: 6,
-                child: CustomPaint(
-                  painter: ProgressBarPainter(progress: 0.25),
-                ),
+                height: 6.h,
+                child: CustomPaint(painter: ProgressBarPainter(progress: 0.25)),
               ),
-              SizedBox(height: 20),
-              const Text('Enter your details',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
+              Text('Enter your details',
+                  style:
+                      TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700)),
+              SizedBox(height: 20.h),
               _buildTextField(
                 controller: _weightController,
                 label: 'Weight (kg)',
                 keyboardType: TextInputType.number,
                 onChanged: _calculateBMI,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               _buildTextField(
                 controller: _heightController,
                 label: 'Height (cm)',
                 keyboardType: TextInputType.number,
                 onChanged: _calculateBMI,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               TextFormField(
                 decoration: _inputDecoration('BMI (Auto Calculated)'),
                 readOnly: true,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.green),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                    fontSize: 14.sp),
                 controller: TextEditingController(
                     text: _calculatedBMI != null
                         ? _calculatedBMI!.toStringAsFixed(1)
                         : ''),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               DropdownButtonFormField<String>(
                 value: _selectedGender,
                 decoration: _inputDecoration('Gender'),
@@ -148,32 +153,36 @@ class _PredictionScreenState extends State<PredictionScreen> {
                 onChanged: (val) => setState(() => _selectedGender = val),
                 validator: (val) => val == null ? 'Please select gender' : null,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               _buildTextField(
-                  controller: _glucoseController,
-                  label: 'Glucose',
-                  keyboardType: TextInputType.number),
-              const SizedBox(height: 15),
+                controller: _glucoseController,
+                label: 'Glucose',
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 15.h),
               _buildTextField(
-                  controller: _hba1cController,
-                  label: 'HbA1c (%)',
-                  keyboardType: TextInputType.number),
-              const SizedBox(height: 15),
+                controller: _hba1cController,
+                label: 'HbA1c (%)',
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 15.h),
               _buildTextField(
-                  controller: _ageController,
-                  label: 'Age',
-                  keyboardType: TextInputType.number),
-              const SizedBox(height: 110),
+                controller: _ageController,
+                label: 'Age',
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 110.h),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    textStyle: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                    padding: EdgeInsets.symmetric(vertical: 18.h),
+                    textStyle:
+                        TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
                     elevation: 4,
                   ),
                   onPressed: () {
@@ -203,8 +212,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                       );
                     }
                   },
-                  child:
-                      const Text('Next', style: TextStyle(color: Colors.white)),
+                  child: Text('Next', style: TextStyle(color: Colors.white)),
                 ),
               ),
             ],

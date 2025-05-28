@@ -236,42 +236,54 @@ class _MealsPageState extends State<MealsPage> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.all(12.w),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 10.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(meal.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.sp)),
-                              SizedBox(height: 4.h),
+                              Text(
+                                meal.name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 6.h),
                               Row(
                                 children: [
                                   const Icon(Icons.local_fire_department,
                                       size: 16, color: Colors.red),
-                                  SizedBox(width: 2.w),
+                                  SizedBox(width: 4.w),
                                   Text('${meal.calories} kcal',
                                       style: TextStyle(fontSize: 12.sp)),
                                   SizedBox(width: 12.w),
                                   const Icon(Icons.monitor_heart,
                                       size: 16, color: Colors.purple),
-                                  SizedBox(width: 2.w),
-                                  Text('Glucose: ${meal.glucoseLevel} mg/dL',
-                                      style: TextStyle(fontSize: 12.sp)),
+                                  SizedBox(width: 4.w),
+                                  Expanded(
+                                    child: Text(
+                                        'Glucose: ${meal.glucoseLevel} mg/dL',
+                                        style: TextStyle(fontSize: 12.sp),
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          setState(() {
-                            addedMeals.removeAt(index);
-                          });
-                          _saveMeals();
-                        },
+                      Padding(
+                        padding: EdgeInsets.only(right: 8.w),
+                        child: IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            setState(() {
+                              addedMeals.removeAt(index);
+                            });
+                            _saveMeals();
+                          },
+                        ),
                       ),
                     ],
                   ),

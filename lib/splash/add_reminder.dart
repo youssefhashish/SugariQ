@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sugar_iq/screens/login.dart';
 import 'package:sugar_iq/widgets/app_theme.dart';
 import '../widgets/progress_indicator.dart';
@@ -86,71 +87,71 @@ class _AddReminderState extends State<AddReminder> {
       backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 51.0, 24.0, 0.0),
+          padding: EdgeInsets.fromLTRB(24.w, 51.h, 24.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Progress Bar
               SizedBox(
                 width: double.infinity,
-                height: 6,
+                height: 6.h,
                 child: CustomPaint(
                   painter: ProgressBarPainter(progress: 1),
                 ),
               ),
-              const SizedBox(height: 45),
+              SizedBox(height: 45.h),
 
-              const Text(
+              Text(
                 'When do you measure glucose level?',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
-                  fontSize: 24,
+                  fontSize: 24.sp,
                   height: 1.5,
                   fontFamily: 'Cera Pro',
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
 
-              const Text(
+              Text(
                 'SugariQ will remind you to take measurements at the same time to get accurate statistics.',
                 style: TextStyle(
-                  color: Color(0xFFABAFB3),
-                  fontSize: 14,
+                  color: const Color(0xFFABAFB3),
+                  fontSize: 14.sp,
                   height: 1.5,
                   fontFamily: 'Abyssinica SIL',
                 ),
               ),
-              const SizedBox(height: 38),
+              SizedBox(height: 38.h),
 
               // Add Reminder Button
               GestureDetector(
                 onTap: _addReminder,
                 child: Container(
-                  height: 60,
+                  height: 60.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: const Color(0xFFE0E3E6),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         children: [
                           TextSpan(
                             text: 'Add a reminder ',
                             style: TextStyle(
-                              color: Color(0xFF0A0A0A),
+                              color: const Color(0xFF0A0A0A),
                               fontFamily: 'Convergence',
-                              fontSize: 16,
+                              fontSize: 16.sp,
                             ),
                           ),
                           TextSpan(
                             text: '+',
                             style: TextStyle(
-                              color: Color(0xFF0A0A0A),
+                              color: const Color(0xFF0A0A0A),
                               fontFamily: 'Convergence',
-                              fontSize: 20,
+                              fontSize: 20.sp,
                             ),
                           ),
                         ],
@@ -159,7 +160,7 @@ class _AddReminderState extends State<AddReminder> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // Display Reminders
               Expanded(
@@ -167,19 +168,19 @@ class _AddReminderState extends State<AddReminder> {
                   itemCount: reminders.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      height: 60,
-                      margin: const EdgeInsets.only(bottom: 10),
+                      height: 60.h,
+                      margin: EdgeInsets.only(bottom: 10.h),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF8F8FB),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Center(
                         child: Text(
                           reminders[index],
-                          style: const TextStyle(
-                            color: Color(0xFF0A0A0A),
+                          style: TextStyle(
+                            color: const Color(0xFF0A0A0A),
                             fontFamily: 'Convergence',
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             height: 1.5,
                           ),
                         ),
@@ -191,14 +192,14 @@ class _AddReminderState extends State<AddReminder> {
 
               // Get Started Button
               Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 44,
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.h,
+                  horizontal: 44.w,
                 ),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: AppTheme.primary,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: TextButton(
                   onPressed: () {
@@ -209,18 +210,18 @@ class _AddReminderState extends State<AddReminder> {
                       ),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Get Started',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Convergence',
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       height: 1.5,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
             ],
           ),
         ),
